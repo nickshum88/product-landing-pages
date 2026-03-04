@@ -1,9 +1,7 @@
 import { Product } from "../types";
-import { b12SublingualDrops } from "./b12-sublingual-drops";
 import { vitaminB12B6LiquidDrops } from "./vitamin-b12-b6-liquid-drops";
 
 const products: Record<string, Product> = {
-  "b12-sublingual-drops": b12SublingualDrops,
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
 };
 
