@@ -13,6 +13,10 @@ export function getAllProducts(): Product[] {
   return Object.values(products);
 }
 
+export function getProductsByBrand(brand: string): Product[] {
+  return Object.values(products).filter((p) => p.brand === brand);
+}
+
 export function getAllSlugs(): string[] {
   return Object.keys(products);
 }

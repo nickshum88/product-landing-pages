@@ -2,6 +2,7 @@ export interface Product {
   // Identity
   slug: string;
   name: string;
+  brand: string; // brand slug — must match a key in lib/brands.ts
   tagline: string;
   heroImage: string;
 

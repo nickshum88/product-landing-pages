@@ -3,6 +3,7 @@ import { Product } from "../types";
 export const vitaminB12B6LiquidDrops: Product = {
   slug: "vitamin-b12-b6-liquid-drops",
   name: "Vitamin B12 and B6 Liquid Drops - B Complex Sublingual",
+  brand: "nusava",
   tagline: "High-potency liquid B-complex drops with 5000mcg B12 for fast sublingual absorption and daily energy support.",
   heroImage: "/products/vitamin-b12-b6-liquid-drops.jpg",
   amazonUrl: "https://www.amazon.com/dp/B0C9JX95NV",

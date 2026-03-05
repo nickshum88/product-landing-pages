@@ -4,6 +4,7 @@ import { Suspense, useState, useEffect, useCallback } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Product, Platform } from "@/lib/types";
 import { getProduct } from "@/lib/products";
+import { getBrandByDomain } from "@/lib/brands";
 import { trackPageView, trackPlatformSelection } from "@/lib/analytics";
 import PlatformModal from "@/components/platform-select/platform-modal";
 import HeroSection from "@/components/sections/hero-section";
@@ -32,6 +33,14 @@ function ProductPageContent() {
       setNotFound(true);
       return;
     }
+
+    // Brand isolation: only serve products matching this domain's brand
+    const brand = getBrandByDomain(window.location.hostname);
+    if (brand && p.brand !== brand.slug) {
+      setNotFound(true);
+      return;
+    }
+
     setProduct(p);
 
     const sourceParam = searchParams.get("source") as Platform | null;
