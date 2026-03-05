@@ -5,7 +5,10 @@ import { Product } from "@/lib/types";
 import { getAllBrands } from "@/lib/brands";
 
 interface ProductEditorProps {
-  initialData?: Partial<Product>;
+  initialData?: Partial<Product> & {
+    _heroImageBase64?: string;
+    _heroImageMediaType?: string;
+  };
   isEdit?: boolean;
 }
 
@@ -285,6 +288,12 @@ export default function ProductEditor({
   const [heroPreview, setHeroPreview] = useState<string>(
     initialData?.heroImage || ""
   );
+  const [importedHeroBase64] = useState<string | null>(
+    initialData?._heroImageBase64 || null
+  );
+  const [importedHeroMediaType] = useState<string | null>(
+    initialData?._heroImageMediaType || null
+  );
 
   // Track unsaved changes
   useEffect(() => {
@@ -406,8 +415,10 @@ export default function ProductEditor({
     setPublishResult(null);
 
     try {
-      // Upload hero image first if there's a new file
+      // Upload hero image: use manual file, or fall back to imported base64
       let heroImageBase64: string | null = null;
+      let heroImageExt: string | null = null;
+
       if (heroFile) {
         const buffer = await heroFile.arrayBuffer();
         const bytes = new Uint8Array(buffer);
@@ -416,6 +427,16 @@ export default function ProductEditor({
           binary += String.fromCharCode(bytes[i]);
         }
         heroImageBase64 = btoa(binary);
+        heroImageExt = heroFile.name.split(".").pop() || null;
+      } else if (importedHeroBase64) {
+        heroImageBase64 = importedHeroBase64;
+        // Derive extension from media type (e.g. "image/jpeg" -> "jpg")
+        const ext = importedHeroMediaType?.split("/")[1] || "jpg";
+        heroImageExt = ext === "jpeg" ? "jpg" : ext;
+        // Set heroImage path if not already set
+        if (!product.heroImage || product.heroImage === "") {
+          product.heroImage = `/products/${product.slug}.${heroImageExt}`;
+        }
       }
 
       const res = await fetch("/api/admin/publish", {
@@ -424,7 +445,7 @@ export default function ProductEditor({
         body: JSON.stringify({
           product,
           heroImageBase64,
-          heroImageExt: heroFile?.name.split(".").pop() || null,
+          heroImageExt,
           isEdit,
         }),
       });
