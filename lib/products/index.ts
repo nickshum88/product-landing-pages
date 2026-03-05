@@ -1,8 +1,10 @@
 import { Product } from "../types";
 import { vitaminB12B6LiquidDrops } from "./vitamin-b12-b6-liquid-drops";
+import { turmericBioperineGarlicGingerCapsules } from "./turmeric-bioperine-garlic-ginger-capsules";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
+  "turmeric-bioperine-garlic-ginger-capsules": turmericBioperineGarlicGingerCapsules,
 };
 
 export function getProduct(slug: string): Product | undefined {
