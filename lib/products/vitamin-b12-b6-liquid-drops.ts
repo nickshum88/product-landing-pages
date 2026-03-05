@@ -13,7 +13,13 @@ export const vitaminB12B6LiquidDrops: Product = {
     accent: "#FF5722",
     background: "#FCE4EC",
   },
-  trustBadges: ["Vegan", "Non-GMO", "Gluten-Free", "Made in USA", "GMP Certified"],
+  trustBadges: [
+    "Vegan",
+    "Non-GMO",
+    "Gluten-Free",
+    "Made in USA",
+    "GMP Certified",
+  ],
   usageSteps: [
     { icon: "💧", title: "Measure dose", detail: "Take 1.5 droppers (1.5mL) of liquid drops" },
     { icon: "👅", title: "Hold sublingually", detail: "Place drops under your tongue for 30 seconds" },
