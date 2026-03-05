@@ -1,8 +1,18 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getAllProducts } from "@/lib/products";
+import { getAllProducts, getProductsByBrand } from "@/lib/products";
+import { getBrandByDomain } from "@/lib/brands";
+import { Product } from "@/lib/types";
 
 export default function Home() {
-  const products = getAllProducts();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const brand = getBrandByDomain(window.location.hostname);
+    setProducts(brand ? getProductsByBrand(brand.slug) : getAllProducts());
+  }, []);
 
   return (
     <main className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
