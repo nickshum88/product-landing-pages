@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { getAllProducts } from "@/lib/products";
-import { Platform } from "@/lib/types";
+import { getAllProducts, getProductsByBrand } from "@/lib/products";
+import { getBrandByDomain } from "@/lib/brands";
+import { Platform, Product } from "@/lib/types";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com";
@@ -88,7 +89,12 @@ function QRCard({
 }
 
 export default function ProductsAdmin() {
-  const products = getAllProducts();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const brand = getBrandByDomain(window.location.hostname);
+    setProducts(brand ? getProductsByBrand(brand.slug) : getAllProducts());
+  }, []);
 
   return (
     <main className="min-h-screen bg-white p-6 lg:p-10">
