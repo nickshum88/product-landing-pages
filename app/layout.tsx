@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Product Support | Nusava",
+  title: "Product Support",
   description: "Product information and support",
 };
 

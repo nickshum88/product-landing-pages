@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getProduct } from "@/lib/products";
+import { getBrandBySlug } from "@/lib/brands";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com";
 
@@ -17,23 +18,25 @@ export async function generateMetadata({
 
   if (!product) {
     return {
-      title: "Product Not Found | Nusava",
+      title: "Product Not Found",
     };
   }
 
+  const brand = getBrandBySlug(product.brand);
+  const brandName = brand?.name || "Product Support";
   const url = `${SITE_URL}/product/${product.slug}`;
   const imageUrl = product.heroImage.startsWith("http")
     ? product.heroImage
     : `${SITE_URL}${product.heroImage}`;
 
   return {
-    title: `${product.name} | Nusava`,
+    title: `${product.name} | ${brandName}`,
     description: product.tagline,
     openGraph: {
       title: product.name,
       description: product.tagline,
       url,
-      siteName: "Nusava",
+      siteName: brandName,
       images: [
         {
           url: imageUrl,
@@ -58,6 +61,7 @@ export async function generateMetadata({
 
 export default function ProductLayout({ params, children }: Props) {
   const product = getProduct(params.slug);
+  const brand = product ? getBrandBySlug(product.brand) : null;
 
   const jsonLd = product
     ? {
@@ -70,7 +74,7 @@ export default function ProductLayout({ params, children }: Props) {
           : `${SITE_URL}${product.heroImage}`,
         brand: {
           "@type": "Brand",
-          name: "Nusava",
+          name: brand?.name || "Product Support",
         },
         offers: {
           "@type": "Offer",
