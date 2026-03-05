@@ -446,12 +446,13 @@ export function extractAllImageUrls(html: string): string[] {
 // --- ASIN extraction ---
 
 export function extractAsin(input: string): string | null {
-  // Direct ASIN
-  if (/^[A-Z0-9]{10}$/.test(input.trim())) return input.trim();
+  // Direct ASIN (case-insensitive)
+  const trimmed = input.trim();
+  if (/^[A-Za-z0-9]{10}$/.test(trimmed)) return trimmed.toUpperCase();
 
-  // From URL
-  const urlMatch = input.match(/\/(?:dp|gp\/product)\/([A-Z0-9]{10})/);
-  if (urlMatch) return urlMatch[1];
+  // From URL (case-insensitive)
+  const urlMatch = input.match(/\/(?:dp|gp\/product)\/([A-Za-z0-9]{10})/i);
+  if (urlMatch) return urlMatch[1].toUpperCase();
 
   return null;
 }
@@ -563,6 +564,11 @@ export async function* runImport(
   if (!asin) {
     yield { error: "Could not extract ASIN from the provided URL or input" };
     return;
+  }
+
+  // Auto-prepend https:// if missing
+  if (!/^https?:\/\//i.test(brandUrl)) {
+    brandUrl = `https://${brandUrl}`;
   }
 
   yield { progress: `Extracting brand identity from ${brandUrl}...` };
