@@ -1,0 +1,66 @@
+import { Product } from "../types";
+
+export const calciumD3K2B12Supplement: Product = {
+  slug: "calcium-d3-k2-b12-supplement",
+  name: "4-in-1 Calcium with D3, K2 & B12 Supplement",
+  brand: "primemd",
+  tagline: "Complete bone and heart support with calcium, vitamin D3, K2, and B12 in one convenient capsule.",
+  heroImage: "/products/calcium-d3-k2-b12-supplement.jpg",
+  amazonUrl: "https://www.amazon.com/dp/B097TFPQRM",
+  asin: "B097TFPQRM",
+  colors: {
+    primary: "#49a594",
+    accent: "#06739f",
+    background: "#f5f5f5",
+  },
+  trustBadges: [
+    "GMO Free",
+    "USA Made",
+    "GMP Certified",
+    "3rd Party Lab Tested",
+    "Gluten Free",
+    "Vegan",
+  ],
+  usageSteps: [
+    { icon: "💊", title: "Take 2 Capsules", detail: "Take 2 capsules daily with a meal" },
+    { icon: "🥛", title: "With Water", detail: "Take with 8 oz of water for best absorption" },
+    { icon: "📅", title: "Daily Consistency", detail: "Take daily for at least 60 days for optimal results" },
+  ],
+  proTips: [
+    "Take with a meal containing healthy fats to enhance vitamin D3 absorption",
+    "Maintain consistent daily timing for best results",
+    "Continue for at least 60 days to experience full benefits",
+    "Store in a cool, dry place away from direct sunlight",
+  ],
+  benefits: [
+    { icon: "🦴", title: "Bone Health Support", description: "Calcium plays a vital role in maintaining strong bones and teeth, while vitamin D3 enhances calcium absorption in the body." },
+    { icon: "❤️", title: "Heart Health Support", description: "Vitamin K2 plays a role in proper calcium distribution, supporting cardiovascular health and arterial flexibility." },
+    { icon: "💪", title: "Muscle Function", description: "Calcium is essential for proper muscle contraction and nerve transmission throughout the body." },
+    { icon: "⚡", title: "Energy Support", description: "Vitamin B12 plays a crucial role in energy metabolism and supports normal nerve function." },
+    { icon: "🛡️", title: "Immune Function", description: "Vitamin D3 plays an important role in supporting healthy immune system function." },
+    { icon: "🧠", title: "Cognitive Support", description: "Vitamin B12 supports healthy nerve function and plays a role in cognitive processes." },
+  ],
+  ingredients: [
+    { name: "Calcium", amount: "600 mg", description: "Essential mineral that supports bone health, muscle function, and nerve transmission" },
+    { name: "Vitamin D3", amount: "125 mcg (5000 IU)", description: "Enhances calcium absorption and supports bone health and immune function" },
+    { name: "Vitamin K2", amount: "100 mcg", description: "Supports proper calcium distribution and cardiovascular health" },
+    { name: "Vitamin B12", amount: "1000 mcg", description: "Supports energy metabolism, nerve function, and red blood cell formation" },
+  ],
+  faq: [
+    { question: "How should I take this supplement?", answer: "Take 2 capsules daily with a meal and 8 oz of water. For best results, take consistently for at least 60 days." },
+    { question: "Is this supplement suitable for vegans?", answer: "Yes, this supplement is vegan-friendly and made with plant-based capsules." },
+    { question: "Is this product gluten-free?", answer: "Yes, this supplement is gluten-free and suitable for those with gluten sensitivities." },
+    { question: "How much calcium is in each serving?", answer: "Each 2-capsule serving provides 600mg of calcium along with supporting vitamins D3, K2, and B12." },
+    { question: "Can I take this with other supplements?", answer: "As with any supplement, consult your healthcare provider before combining with other medications or supplements." },
+    { question: "How long will one bottle last?", answer: "Each bottle contains 120 capsules, providing a 60-day supply when taken as directed (2 capsules daily)." },
+    { question: "Why are D3, K2, and B12 included with calcium?", answer: "This 4-in-1 formula combines these nutrients because they work synergistically - D3 enhances calcium absorption, K2 supports proper calcium distribution, and B12 supports overall health." },
+    { question: "When will I notice results?", answer: "Individual results may vary. We recommend taking consistently for at least 60 days to experience the full benefits of this supplement." },
+  ],
+  chatbotContext: `This is a 4-in-1 calcium supplement containing calcium (600mg), vitamin D3 (125mcg/5000 IU), vitamin K2 (100mcg), and vitamin B12 (1000mcg) per 2-capsule serving. The product is vegan, gluten-free, and provides 60 servings per bottle. Take 2 capsules daily with a meal and water. COMPLIANCE RULES: Do not make disease claims. Always recommend consulting healthcare providers. Focus on nutritional support and established functions of nutrients. Do not diagnose, treat, cure, or prevent any disease. Statements have not been evaluated by the FDA.`,
+  suggestedPrompts: [
+    "What makes this calcium supplement different from others?",
+    "How do D3, K2, and B12 work together with calcium?",
+    "What's the best time of day to take this supplement?",
+    "Is this suitable for someone following a plant-based diet?",
+  ],
+};
