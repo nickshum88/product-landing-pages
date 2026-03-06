@@ -288,12 +288,21 @@ export default function ProductEditor({
   const [heroPreview, setHeroPreview] = useState<string>(
     initialData?.heroImage || ""
   );
-  const [importedHeroBase64] = useState<string | null>(
+  const [importedHeroBase64, setImportedHeroBase64] = useState<string | null>(
     initialData?._heroImageBase64 || null
   );
-  const [importedHeroMediaType] = useState<string | null>(
+  const [importedHeroMediaType, setImportedHeroMediaType] = useState<string | null>(
     initialData?._heroImageMediaType || null
   );
+
+  // Re-import state
+  const [reimporting, setReimporting] = useState(false);
+  const [reimportProgress, setReimportProgress] = useState<string[]>([]);
+  const [reimportError, setReimportError] = useState("");
+  const [reimportData, setReimportData] = useState<(Partial<Product> & { _heroImageBase64?: string; _heroImageMediaType?: string }) | null>(null);
+  const [reimportBrandUrl, setReimportBrandUrl] = useState("");
+  const [showReimportForm, setShowReimportForm] = useState(false);
+  const [mergeSelections, setMergeSelections] = useState<Record<string, boolean>>({});
 
   // Track unsaved changes
   useEffect(() => {
@@ -474,6 +483,121 @@ export default function ProductEditor({
     }
   };
 
+  // Re-import from Amazon
+  const handleReimport = async () => {
+    if (!product.asin || !reimportBrandUrl) return;
+
+    setReimporting(true);
+    setReimportProgress([]);
+    setReimportError("");
+    setReimportData(null);
+
+    try {
+      const res = await fetch("/api/admin/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amazonUrl: product.asin, brandUrl: reimportBrandUrl }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setReimportError(data.error || "Re-import failed");
+        setReimporting(false);
+        return;
+      }
+
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      if (!reader) { setReimportError("Failed to read stream"); setReimporting(false); return; }
+
+      let buffer = "";
+      let productData: (Partial<Product> & { _heroImageBase64?: string; _heroImageMediaType?: string }) | null = null;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const payload = line.slice(6);
+          if (payload === "[DONE]") continue;
+          try {
+            const data = JSON.parse(payload);
+            if (data.progress) setReimportProgress((prev) => [...prev, data.progress]);
+            if (data.product) productData = data.product;
+            if (data.error) setReimportError(data.error);
+          } catch { /* skip */ }
+        }
+      }
+
+      if (productData) {
+        setReimportData(productData);
+        // Default all sections to selected
+        setMergeSelections({
+          name: true,
+          tagline: true,
+          heroImage: true,
+          trustBadges: true,
+          usageSteps: true,
+          proTips: true,
+          benefits: true,
+          ingredients: true,
+          faq: true,
+          chatbotContext: true,
+          suggestedPrompts: true,
+          colors: true,
+        });
+      }
+    } catch (err) {
+      setReimportError(err instanceof Error ? err.message : "Re-import failed");
+    } finally {
+      setReimporting(false);
+    }
+  };
+
+  const applyMerge = () => {
+    if (!reimportData) return;
+    setProduct((prev) => {
+      const updated = { ...prev };
+      if (mergeSelections.name && reimportData.name) updated.name = reimportData.name;
+      if (mergeSelections.tagline && reimportData.tagline) updated.tagline = reimportData.tagline;
+      if (mergeSelections.colors && reimportData.colors) updated.colors = reimportData.colors;
+      if (mergeSelections.trustBadges && reimportData.trustBadges) updated.trustBadges = reimportData.trustBadges;
+      if (mergeSelections.usageSteps && reimportData.usageSteps) updated.usageSteps = reimportData.usageSteps;
+      if (mergeSelections.proTips && reimportData.proTips) updated.proTips = reimportData.proTips;
+      if (mergeSelections.benefits && reimportData.benefits) updated.benefits = reimportData.benefits;
+      if (mergeSelections.ingredients && reimportData.ingredients) updated.ingredients = reimportData.ingredients;
+      if (mergeSelections.faq && reimportData.faq) updated.faq = reimportData.faq;
+      if (mergeSelections.chatbotContext && reimportData.chatbotContext) updated.chatbotContext = reimportData.chatbotContext;
+      if (mergeSelections.suggestedPrompts && reimportData.suggestedPrompts) updated.suggestedPrompts = reimportData.suggestedPrompts;
+      return updated;
+    });
+    if (mergeSelections.heroImage && reimportData._heroImageBase64) {
+      setImportedHeroBase64(reimportData._heroImageBase64);
+      setImportedHeroMediaType(reimportData._heroImageMediaType || null);
+    }
+    setDirty(true);
+    setReimportData(null);
+    setShowReimportForm(false);
+  };
+
+  const MERGE_SECTIONS = [
+    { key: "name", label: "Name" },
+    { key: "tagline", label: "Tagline" },
+    { key: "colors", label: "Colors" },
+    { key: "heroImage", label: "Hero Image" },
+    { key: "trustBadges", label: "Trust Badges" },
+    { key: "usageSteps", label: "Usage Steps" },
+    { key: "proTips", label: "Pro Tips" },
+    { key: "benefits", label: "Benefits" },
+    { key: "ingredients", label: "Ingredients" },
+    { key: "faq", label: "FAQ" },
+    { key: "chatbotContext", label: "Chatbot Context" },
+    { key: "suggestedPrompts", label: "Suggested Prompts" },
+  ];
+
   return (
     <div className="space-y-4">
       {/* Header bar */}
@@ -487,6 +611,15 @@ export default function ProductEditor({
           )}
         </div>
         <div className="flex items-center gap-3">
+          {isEdit && product.asin && (
+            <button
+              type="button"
+              onClick={() => setShowReimportForm(true)}
+              className="px-4 py-2 text-sm bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
+            >
+              Re-import
+            </button>
+          )}
           {product.slug && (
             <a
               href={`/product/${product.slug}`}
@@ -517,6 +650,144 @@ export default function ProductEditor({
           }`}
         >
           {publishResult.message}
+        </div>
+      )}
+
+      {/* Re-import modal */}
+      {showReimportForm && !reimportData && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white max-w-md w-full p-6">
+            <h3 className="font-heading font-semibold text-gray-900 mb-1">
+              Re-import from Amazon
+            </h3>
+            <p className="text-sm text-gray-500 mb-4">
+              Re-pull data for ASIN <strong>{product.asin}</strong>. You&apos;ll choose which sections to update.
+            </p>
+
+            <div className="space-y-3 mb-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Brand Website URL
+                </label>
+                <input
+                  type="text"
+                  value={reimportBrandUrl}
+                  onChange={(e) => setReimportBrandUrl(e.target.value)}
+                  placeholder="https://yourbrand.com"
+                  className="w-full px-3 py-2.5 border border-gray-300 text-sm focus:outline-none focus:border-gray-900 transition-colors"
+                  disabled={reimporting}
+                />
+              </div>
+            </div>
+
+            {reimportError && (
+              <div className="px-4 py-3 mb-3 bg-red-50 border border-red-200 text-sm text-red-800">
+                {reimportError}
+              </div>
+            )}
+
+            {reimportProgress.length > 0 && (
+              <div className="px-4 py-3 mb-3 bg-gray-50 border border-gray-200 space-y-1 max-h-40 overflow-y-auto">
+                {reimportProgress.map((msg, i) => (
+                  <p key={i} className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-green-500">
+                      {i < reimportProgress.length - 1 || !reimporting ? "✓" : "..."}
+                    </span>
+                    {msg}
+                  </p>
+                ))}
+                {reimporting && (
+                  <p className="text-sm text-gray-400 animate-pulse">Processing...</p>
+                )}
+              </div>
+            )}
+
+            <div className="flex items-center justify-end gap-3">
+              <button
+                onClick={() => { setShowReimportForm(false); setReimportError(""); setReimportProgress([]); }}
+                disabled={reimporting}
+                className="px-4 py-2 text-sm border border-gray-300 hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleReimport}
+                disabled={reimporting || !reimportBrandUrl}
+                className="px-4 py-2 text-sm font-medium bg-gray-900 text-white hover:bg-gray-700 disabled:bg-gray-400 transition-colors"
+              >
+                {reimporting ? "Importing..." : "Re-import"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Merge selection modal */}
+      {reimportData && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white max-w-md w-full p-6">
+            <h3 className="font-heading font-semibold text-gray-900 mb-1">
+              Select Sections to Update
+            </h3>
+            <p className="text-sm text-gray-500 mb-4">
+              Choose which sections to replace with the newly imported data. Unchecked sections keep their current values.
+            </p>
+
+            <div className="space-y-2 mb-4 max-h-64 overflow-y-auto">
+              {MERGE_SECTIONS.map(({ key, label }) => {
+                const hasData = key === "heroImage"
+                  ? !!reimportData._heroImageBase64
+                  : !!(reimportData as Record<string, unknown>)[key];
+                return (
+                  <label
+                    key={key}
+                    className={`flex items-center gap-3 px-3 py-2 border ${hasData ? "border-gray-200 cursor-pointer hover:bg-gray-50" : "border-gray-100 opacity-40 cursor-not-allowed"} transition-colors`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={!!mergeSelections[key] && hasData}
+                      onChange={(e) => setMergeSelections((prev) => ({ ...prev, [key]: e.target.checked }))}
+                      disabled={!hasData}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-sm text-gray-700">{label}</span>
+                    {!hasData && <span className="text-xs text-gray-400 ml-auto">No data</span>}
+                  </label>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setMergeSelections(Object.fromEntries(MERGE_SECTIONS.map(({ key }) => [key, true])))}
+                  className="text-xs text-gray-500 hover:text-gray-700"
+                >
+                  Select all
+                </button>
+                <button
+                  onClick={() => setMergeSelections({})}
+                  className="text-xs text-gray-500 hover:text-gray-700"
+                >
+                  Deselect all
+                </button>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setReimportData(null)}
+                  className="px-4 py-2 text-sm border border-gray-300 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={applyMerge}
+                  className="px-4 py-2 text-sm font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors"
+                >
+                  Apply Selected
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
