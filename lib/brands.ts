@@ -1,7 +1,14 @@
+import { SupportContact } from "./types";
+
 export interface BrandConfig {
   slug: string;
   name: string;
   domains: string[]; // production domains (with and without www)
+  defaultSupportContacts?: {
+    amazon?: SupportContact;
+    tiktok?: SupportContact;
+    website?: SupportContact;
+  };
 }
 
 /**
@@ -16,16 +23,34 @@ export const brands: BrandConfig[] = [
     slug: "nusava",
     name: "Nusava",
     domains: ["pages.nusava.com", "www.pages.nusava.com"],
+    defaultSupportContacts: {
+      website: {
+        phone: "415-800-4758",
+        email: "hello@getnusava.com",
+      },
+    },
   },
   {
     slug: "medchoice",
     name: "MedChoice",
     domains: ["pages.medchoice.co", "www.pages.medchoice.co"],
+    defaultSupportContacts: {
+      website: {
+        phone: "510-470-6744",
+        email: "support@medchoice.co",
+      },
+    },
   },
   {
     slug: "primemd",
     name: "PrimeMD",
     domains: ["pages.getprimemd.com", "www.pages.getprimemd.com"],
+    defaultSupportContacts: {
+      website: {
+        phone: "424-256-1649",
+        email: "hi@getprimemd.com",
+      },
+    },
   },
 ];
 

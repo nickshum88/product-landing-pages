@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import ProductEditor from "@/components/admin/product-editor";
 import { Product } from "@/lib/types";
-import { getAllBrands } from "@/lib/brands";
+import { getAllBrands, getBrandBySlug } from "@/lib/brands";
 
 type Mode = "choose" | "import" | "scratch" | "editor";
 
@@ -90,7 +90,12 @@ export default function NewProduct() {
       }
 
       if (productData) {
-        setImportedData({ ...productData, brand: selectedBrand });
+        const brandDefaults = getBrandBySlug(selectedBrand)?.defaultSupportContacts;
+        setImportedData({
+          ...productData,
+          brand: selectedBrand,
+          ...(brandDefaults ? { supportContacts: brandDefaults } : {}),
+        });
         setMode("editor");
       } else if (!importError) {
         setImportError("Import completed but no product data was returned");
@@ -158,7 +163,11 @@ export default function NewProduct() {
             <button
               onClick={() => {
                 setMode("scratch");
-                setImportedData({ brand: selectedBrand });
+                const brandDefaults = getBrandBySlug(selectedBrand)?.defaultSupportContacts;
+                setImportedData({
+                  brand: selectedBrand,
+                  ...(brandDefaults ? { supportContacts: brandDefaults } : {}),
+                });
               }}
               disabled={!selectedBrand}
               className="w-full bg-white border border-gray-200 p-5 text-left hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

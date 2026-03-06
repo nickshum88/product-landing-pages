@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { Product } from "@/lib/types";
-import { getAllBrands } from "@/lib/brands";
+import { Product, SupportContact } from "@/lib/types";
+import { getAllBrands, getBrandBySlug } from "@/lib/brands";
 
 interface ProductEditorProps {
   initialData?: Partial<Product> & {
@@ -32,6 +32,7 @@ const EMPTY_PRODUCT: Product = {
   faq: [],
   chatbotContext: "",
   suggestedPrompts: [],
+  supportContacts: {},
 };
 
 function slugify(name: string): string {
@@ -394,6 +395,24 @@ export default function ProductEditor({
         arr.splice(to, 0, item);
         return { ...prev, [field]: arr };
       });
+      setDirty(true);
+    },
+    []
+  );
+
+  // Support contacts helper
+  const updateSupportContact = useCallback(
+    (platform: "amazon" | "tiktok" | "website", updates: Partial<SupportContact>) => {
+      setProduct((prev) => ({
+        ...prev,
+        supportContacts: {
+          ...prev.supportContacts,
+          [platform]: {
+            ...(prev.supportContacts?.[platform] || {}),
+            ...updates,
+          },
+        },
+      }));
       setDirty(true);
     },
     []
@@ -818,7 +837,25 @@ export default function ProductEditor({
             </label>
             <select
               value={product.brand}
-              onChange={(e) => update("brand", e.target.value)}
+              onChange={(e) => {
+                const newBrand = e.target.value;
+                update("brand", newBrand);
+                // Auto-fill support contacts from brand defaults if currently empty
+                const hasContacts = product.supportContacts &&
+                  (product.supportContacts.website?.phone || product.supportContacts.website?.email ||
+                   product.supportContacts.amazon?.phone || product.supportContacts.amazon?.email ||
+                   product.supportContacts.tiktok?.phone || product.supportContacts.tiktok?.email);
+                if (!hasContacts && newBrand) {
+                  const brandConfig = getBrandBySlug(newBrand);
+                  if (brandConfig?.defaultSupportContacts) {
+                    setProduct((prev) => ({
+                      ...prev,
+                      brand: newBrand,
+                      supportContacts: brandConfig.defaultSupportContacts,
+                    }));
+                  }
+                }
+              }}
               className="w-full px-3 py-2 border border-gray-300 text-sm focus:outline-none focus:border-gray-900 transition-colors bg-white"
             >
               <option value="">Select brand...</option>
@@ -1176,6 +1213,87 @@ export default function ProductEditor({
           onChange={(tags) => update("suggestedPrompts", tags)}
           placeholder="e.g. How do I take this?"
         />
+      </Section>
+
+      {/* Support & Returns */}
+      <Section title="Support & Returns" defaultOpen={false}>
+        <p className="text-xs text-gray-500 mb-2">
+          Customize how customers can reach support for each purchase platform.
+          Leave fields blank to use the default return flow.
+        </p>
+
+        {/* Website */}
+        <div className="border border-gray-200 p-4 bg-gray-50 space-y-3">
+          <h4 className="text-sm font-semibold text-gray-700">Website Purchases</h4>
+          <div className="grid grid-cols-2 gap-3">
+            <TextField
+              label="Phone"
+              value={product.supportContacts?.website?.phone || ""}
+              onChange={(v) => updateSupportContact("website", { phone: v })}
+              placeholder="e.g. 415-800-4758"
+            />
+            <TextField
+              label="Email"
+              value={product.supportContacts?.website?.email || ""}
+              onChange={(v) => updateSupportContact("website", { email: v })}
+              placeholder="e.g. hello@brand.com"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <TextField
+              label="Return Portal URL"
+              value={product.supportContacts?.website?.url || ""}
+              onChange={(v) => updateSupportContact("website", { url: v })}
+              placeholder="https://yourdomain.com/returns"
+            />
+            <TextField
+              label="Button Label"
+              value={product.supportContacts?.website?.urlLabel || ""}
+              onChange={(v) => updateSupportContact("website", { urlLabel: v })}
+              placeholder="e.g. Go to Return Portal"
+            />
+          </div>
+        </div>
+
+        {/* Amazon */}
+        <div className="border border-gray-200 p-4 bg-gray-50 space-y-3">
+          <h4 className="text-sm font-semibold text-gray-700">Amazon Purchases</h4>
+          <p className="text-xs text-gray-400">Returns are always handled through Amazon. These optional fields add extra contact info.</p>
+          <div className="grid grid-cols-2 gap-3">
+            <TextField
+              label="Phone"
+              value={product.supportContacts?.amazon?.phone || ""}
+              onChange={(v) => updateSupportContact("amazon", { phone: v })}
+              placeholder="Optional"
+            />
+            <TextField
+              label="Email"
+              value={product.supportContacts?.amazon?.email || ""}
+              onChange={(v) => updateSupportContact("amazon", { email: v })}
+              placeholder="Optional"
+            />
+          </div>
+        </div>
+
+        {/* TikTok */}
+        <div className="border border-gray-200 p-4 bg-gray-50 space-y-3">
+          <h4 className="text-sm font-semibold text-gray-700">TikTok Shop Purchases</h4>
+          <p className="text-xs text-gray-400">Returns are handled through TikTok. These optional fields add extra contact info.</p>
+          <div className="grid grid-cols-2 gap-3">
+            <TextField
+              label="Phone"
+              value={product.supportContacts?.tiktok?.phone || ""}
+              onChange={(v) => updateSupportContact("tiktok", { phone: v })}
+              placeholder="Optional"
+            />
+            <TextField
+              label="Email"
+              value={product.supportContacts?.tiktok?.email || ""}
+              onChange={(v) => updateSupportContact("tiktok", { email: v })}
+              placeholder="Optional"
+            />
+          </div>
+        </div>
       </Section>
 
       {/* Bottom publish bar */}

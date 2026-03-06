@@ -12,6 +12,35 @@ function escapeTemplate(s: string): string {
   return s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$/g, "\\$");
 }
 
+function generateSupportContactObj(contact: { phone?: string; email?: string; url?: string; urlLabel?: string }): string {
+  const fields: string[] = [];
+  if (contact.phone) fields.push(`phone: "${escapeStr(contact.phone)}"`);
+  if (contact.email) fields.push(`email: "${escapeStr(contact.email)}"`);
+  if (contact.url) fields.push(`url: "${escapeStr(contact.url)}"`);
+  if (contact.urlLabel) fields.push(`urlLabel: "${escapeStr(contact.urlLabel)}"`);
+  return `{ ${fields.join(", ")} }`;
+}
+
+function generateSupportContacts(product: Product): string {
+  const sc = product.supportContacts;
+  if (!sc) return "";
+
+  const platforms: string[] = [];
+  if (sc.amazon && (sc.amazon.phone || sc.amazon.email || sc.amazon.url)) {
+    platforms.push(`    amazon: ${generateSupportContactObj(sc.amazon)}`);
+  }
+  if (sc.tiktok && (sc.tiktok.phone || sc.tiktok.email || sc.tiktok.url)) {
+    platforms.push(`    tiktok: ${generateSupportContactObj(sc.tiktok)}`);
+  }
+  if (sc.website && (sc.website.phone || sc.website.email || sc.website.url)) {
+    platforms.push(`    website: ${generateSupportContactObj(sc.website)}`);
+  }
+
+  if (platforms.length === 0) return "";
+
+  return `\n  supportContacts: {\n${platforms.join(",\n")},\n  },`;
+}
+
 export function generateProductTs(product: Product): string {
   const varName = toVarName(product.slug);
 
@@ -91,7 +120,7 @@ ${faq},
   chatbotContext: \`${escapeTemplate(product.chatbotContext)}\`,
   suggestedPrompts: [
 ${prompts},
-  ],
+  ],${generateSupportContacts(product)}
 };
 `;
 }

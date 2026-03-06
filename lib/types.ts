@@ -47,6 +47,20 @@ export interface Product {
   // Chatbot
   chatbotContext: string;
   suggestedPrompts: string[];
+
+  // Support contacts per platform (optional — falls back to brand/global defaults)
+  supportContacts?: {
+    amazon?: SupportContact;
+    tiktok?: SupportContact;
+    website?: SupportContact;
+  };
+}
+
+export interface SupportContact {
+  phone?: string;
+  email?: string;
+  url?: string;
+  urlLabel?: string;
 }
 
 export type Platform = "amazon" | "tiktok" | "website";
