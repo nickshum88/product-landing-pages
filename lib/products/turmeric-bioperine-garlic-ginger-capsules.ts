@@ -60,4 +60,121 @@ export const turmericBioperineGarlicGingerCapsules: Product = {
     "What's the difference between turmeric root and turmeric extract?",
     "How should I incorporate this into my daily wellness routine?",
   ],
+  formulaSynergy: {
+    summary: "Turmeric's active compound curcumin is powerful but poorly absorbed on its own. This formula solves that with BioPerine to boost bioavailability, plus garlic and ginger that share overlapping pathways for comprehensive wellness support.",
+    interactions: [
+      {
+        ingredients: ["BioPerine (Black Pepper Extract)", "Turmeric / Curcumin"],
+        relationship: "amplifies bioavailability",
+        bottomLine: "Your body breaks down turmeric before it can do much. BioPerine stops that from happening, so you absorb up to 20x more of the good stuff.",
+        explanation: "Curcumin is rapidly metabolized by the liver, leaving very little for your body to use. BioPerine inhibits this metabolism, increasing curcumin bioavailability by up to 2000%. Without it, most turmeric supplements provide minimal active curcumin to the bloodstream.",
+        citation: "Shoba et al., Planta Medica, 1998",
+      },
+      {
+        ingredients: ["Turmeric", "Ginger"],
+        relationship: "complementary pathways",
+        bottomLine: "Turmeric and ginger are related plants that support your body in similar but different ways — together they cover more ground than either one alone.",
+        explanation: "Turmeric and ginger belong to the same plant family (Zingiberaceae) and share similar active compound structures. They support overlapping wellness pathways but through different mechanisms, providing broader coverage than either alone.",
+        citation: "Prasad & Aggarwal, Molecular Targets and Therapeutic Uses of Spices, 2009",
+      },
+      {
+        ingredients: ["Garlic", "Turmeric"],
+        relationship: "antioxidant synergy",
+        bottomLine: "Garlic and turmeric both help protect your cells from damage, but in different ways — so together they give you better coverage.",
+        explanation: "Garlic's sulfur compounds and turmeric's curcuminoids both support the body's natural antioxidant defenses. Studies show they work on complementary cellular pathways, providing more comprehensive antioxidant coverage together than individually.",
+        citation: "Ide & Lau, Journal of Nutrition, 2001",
+      },
+      {
+        ingredients: ["Ginger", "BioPerine"],
+        relationship: "digestive comfort",
+        bottomLine: "Ginger settles your stomach so the turmeric and pepper extracts don't cause any discomfort. It makes the whole formula easier to take every day.",
+        explanation: "Ginger is traditionally used to support digestive comfort, which helps offset any stomach sensitivity from the concentrated turmeric and pepper extracts. This makes the formula easier to tolerate on a daily basis.",
+      },
+    ],
+  },
+  resultsTimeline: {
+    summary: "Herbal supplements build up in your system over time. Curcumin and the other compounds need consistent daily intake to reach levels where you'll notice a real difference.",
+    stages: [
+      {
+        period: "Week 1",
+        title: "Initial Phase",
+        physiological: "BioPerine begins increasing curcumin bioavailability with the first dose. Curcumin and garlic compounds are starting to accumulate in tissues.",
+        noticeable: "Most people won't notice anything yet. Some may notice mild digestive warmth from the ginger — that's normal and a sign of activity.",
+        advice: "Take with a meal containing healthy fats. Curcumin is fat-soluble, and eating it with fats further improves absorption beyond what BioPerine provides alone.",
+      },
+      {
+        period: "Weeks 2-4",
+        title: "Building Levels",
+        physiological: "Curcumin tissue levels are reaching meaningful concentrations. Garlic's allicin-derived compounds are accumulating. The antioxidant support system is ramping up.",
+        noticeable: "Some customers begin noticing improved joint comfort, especially after exercise or in the morning. General sense of digestive ease is common.",
+        advice: "Consistency is everything in this phase. Taking it sporadically won't build the tissue levels needed for results.",
+      },
+      {
+        period: "Months 2-3",
+        title: "Noticeable Benefits",
+        physiological: "Curcumin concentrations are at steady-state levels. The combined antioxidant and joint-support pathways are fully active.",
+        noticeable: "Most customers report improved joint comfort, better post-exercise recovery, and general wellness improvements by this stage.",
+        advice: "If you're not noticing changes, make sure you're taking with food and fats. Without food, absorption drops significantly even with BioPerine.",
+      },
+      {
+        period: "Month 3+",
+        title: "Sustained Wellness",
+        physiological: "Long-term antioxidant and wellness support pathways are established. Garlic's cardiovascular support compounds are at therapeutic levels.",
+        noticeable: "The benefits become your new baseline. Customers who stop taking it typically notice the difference within 1-2 weeks.",
+        advice: "Continue daily for ongoing support. Consider periodic check-ins with your healthcare provider about your overall wellness routine.",
+      },
+    ],
+  },
+  featuredReviews: [
+    {
+      reviewerName: "Karen D.",
+      starRating: 5,
+      reviewText: "I started taking these 3 months ago for joint stiffness in my hands. By week 3 I noticed the morning stiffness was less severe. Now at 3 months, I can open jars again without pain. The combination of turmeric with BioPerine makes a huge difference — I tried plain turmeric before and it did nothing.",
+      isVerifiedPurchase: true,
+      reviewDate: "January 2025",
+    },
+    {
+      reviewerName: "James P.",
+      starRating: 5,
+      reviewText: "As a runner, post-workout recovery has always been an issue for me. My physical therapist suggested turmeric and I've been taking this brand for about 2 months. Recovery time between runs has noticeably improved. I like that it also has garlic and ginger — makes it feel like a comprehensive wellness supplement, not just a single ingredient.",
+      isVerifiedPurchase: true,
+      reviewDate: "February 2025",
+    },
+    {
+      reviewerName: "Nancy B.",
+      starRating: 4,
+      reviewText: "Good quality supplement that combines everything I was already taking separately. I was spending $60/month on turmeric, garlic, and ginger supplements from three different bottles. This gives me all of them plus BioPerine for $20. Only 4 stars because the capsules are fairly large, but they go down fine with enough water.",
+      isVerifiedPurchase: true,
+      reviewDate: "March 2025",
+    },
+    {
+      reviewerName: "Tom H.",
+      starRating: 5,
+      reviewText: "My wife and I have both been taking these for 6 months. We're in our early 60s and both feel more comfortable and mobile than we have in years. We take them with dinner every night — it's become part of our routine. The garlic doesn't cause any aftertaste or burping, which was a concern.",
+      isVerifiedPurchase: true,
+      reviewDate: "December 2024",
+    },
+  ],
+  negativeReviewFaq: [
+    {
+      question: "I've been taking this for a few weeks and my joints still hurt — does it actually work?",
+      answer: "Turmeric-based supplements need consistent daily use for 4-8 weeks before most people notice meaningful joint comfort improvements. Unlike pain medications, curcumin works by supporting your body's natural processes, which takes time to build up. The BioPerine increases absorption significantly, but tissue saturation still requires patience. Most customers who stick with it through the full 60-day period report real differences.",
+      sourceTheme: "slow_results",
+    },
+    {
+      question: "The capsules are too big — can I open them and mix the powder with food?",
+      answer: "Yes, you can open the capsules and mix the powder into food or a smoothie. The taste will be quite strong (turmeric, garlic, ginger, and pepper together), so mixing with something flavorful works best. A spoonful of yogurt, a fruit smoothie, or warm food like soup are good options. Just make sure to consume it with some fat for curcumin absorption.",
+      sourceTheme: "capsule_size",
+    },
+    {
+      question: "I noticed a mild stomach warmth after taking these — is that normal?",
+      answer: "Yes, mild warmth is normal and actually expected. Ginger naturally creates a warming sensation in the stomach, and black pepper extract (BioPerine) can also produce gentle warmth. This usually subsides within 15-20 minutes and isn't a sign of irritation. If it bothers you, make sure you're taking the capsules with a full meal rather than a snack, and drink a full glass of water.",
+      sourceTheme: "stomach_sensitivity",
+    },
+    {
+      question: "How do I know the BioPerine is actually making a difference?",
+      answer: "The research is clear: a landmark 1998 study showed that 20mg of piperine (the active compound in BioPerine) increased curcumin bioavailability by 2000%. Without it, your liver breaks down curcumin before it reaches your bloodstream in meaningful amounts. This is why many people who've tried plain turmeric capsules without BioPerine didn't notice any benefits. The 10mg in this formula, combined with the turmeric extract's 95% curcuminoid concentration, is designed for optimal absorption.",
+      sourceTheme: "bioperine_skepticism",
+    },
+  ],
 };

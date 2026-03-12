@@ -28,9 +28,41 @@ export async function POST(request: NextRequest) {
     const returnPolicy = RETURN_POLICIES[platform as Platform];
     const platformLabel = PLATFORM_LABELS[platform as Platform];
 
+    // Build synergy context
+    const synergyContext = product.formulaSynergy.interactions
+      .map(
+        (i) =>
+          `- ${i.ingredients.join(" + ")}: ${i.relationship} — ${i.explanation}${i.citation ? ` (${i.citation})` : ""}`
+      )
+      .join("\n");
+
+    // Build timeline context
+    const timelineContext = product.resultsTimeline.stages
+      .map(
+        (s) =>
+          `- ${s.period} (${s.title}): ${s.noticeable} Advice: ${s.advice}`
+      )
+      .join("\n");
+
+    // Build negative review FAQ context
+    const complaintContext = product.negativeReviewFaq
+      .map((f) => `- Theme "${f.sourceTheme}": Q: ${f.question} A: ${f.answer}`)
+      .join("\n");
+
     const systemPrompt = `${product.chatbotContext}
 
 Customer purchased from: ${platformLabel}
+
+FORMULA SYNERGY (why these ingredients work together):
+${product.formulaSynergy.summary}
+${synergyContext}
+
+RESULTS TIMELINE (what to expect and when):
+${product.resultsTimeline.summary}
+${timelineContext}
+
+COMMON CUSTOMER CONCERNS (pre-built answers for frequent complaints):
+${complaintContext}
 
 RETURN/REFUND POLICY FOR THIS CUSTOMER:
 ${returnPolicy.heading}
@@ -47,7 +79,10 @@ ${platform === "tiktok" ? "- NEVER offer to process returns for TikTok customers
 - Be warm, knowledgeable, and transparent — never pushy or sales-oriented.
 - Never make disease treatment, cure, or prevention claims.
 - Recommend consulting a healthcare provider for medical questions or drug interaction concerns.
-- Present benefits as educational and evidence-informed, not as guaranteed outcomes.`;
+- Present benefits as educational and evidence-informed, not as guaranteed outcomes.
+- When asked about whether the product works or why these ingredients, reference the formula synergy interactions and explain how the ingredients work together.
+- When asked about timing or when they'll see results, reference the results timeline and set honest expectations based on the specific stage they're likely in.
+- When a customer expresses a concern that matches a known complaint theme, use the pre-built answer but adapt the tone to the conversation.`;
 
     // Stream the response
     const stream = anthropic.messages.stream({

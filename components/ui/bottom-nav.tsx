@@ -5,11 +5,17 @@ import { trackSectionView } from "@/lib/analytics";
 
 const NAV_ITEMS: Array<{ id: SectionId; label: string; fullLabel: string }> = [
   { id: "usage", label: "Use", fullLabel: "How to Use" },
-  { id: "benefits", label: "Benefits", fullLabel: "Benefits" },
-  { id: "ingredients", label: "Inside", fullLabel: "Ingredients" },
+  { id: "science", label: "Science", fullLabel: "Science" },
+  { id: "timeline", label: "Timeline", fullLabel: "Timeline" },
+  { id: "reviews", label: "Reviews", fullLabel: "Reviews" },
   { id: "faq", label: "FAQ", fullLabel: "FAQ" },
-  { id: "returns", label: "Returns", fullLabel: "Returns" },
+  { id: "help", label: "Help", fullLabel: "Help" },
 ];
+
+// Condensed set for mobile
+const MOBILE_NAV_ITEMS = NAV_ITEMS.filter(
+  (item) => ["usage", "science", "faq", "help"].includes(item.id)
+);
 
 interface BottomNavProps {
   productSlug: string;
@@ -32,7 +38,7 @@ export default function BottomNav({ productSlug, accentColor }: BottomNavProps) 
       {/* Mobile: bottom bar */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200 lg:hidden">
         <div className="max-w-lg mx-auto flex items-center justify-around px-2 h-14">
-          {NAV_ITEMS.map(({ id, label }) => {
+          {MOBILE_NAV_ITEMS.map(({ id, label }) => {
             const isActive = activeSection === id;
             return (
               <button

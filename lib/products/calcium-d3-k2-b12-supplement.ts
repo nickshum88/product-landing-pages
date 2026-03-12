@@ -63,4 +63,121 @@ export const calciumD3K2B12Supplement: Product = {
     "What's the best time of day to take this supplement?",
     "Is this suitable for someone following a plant-based diet?",
   ],
+  formulaSynergy: {
+    summary: "These four nutrients form a complete calcium utilization chain. D3 unlocks absorption, K2 directs where calcium goes, and B12 keeps the energy metabolism running so your body can actually use all of it.",
+    interactions: [
+      {
+        ingredients: ["Vitamin D3", "Calcium"],
+        relationship: "enables absorption",
+        bottomLine: "Without vitamin D3, your body only absorbs a small fraction of the calcium you take. D3 helps you actually use it.",
+        explanation: "D3 upregulates calcium transport proteins in the intestine, increasing absorption from roughly 15% to 40%. Without adequate D3, most supplemental calcium passes through the body unused.",
+        citation: "Heaney et al., Journal of Bone and Mineral Research, 2003",
+      },
+      {
+        ingredients: ["Vitamin K2", "Calcium"],
+        relationship: "directs delivery",
+        bottomLine: "K2 tells calcium where to go — into your bones where you need it, and away from your arteries where you don't.",
+        explanation: "K2 activates the protein osteocalcin, which binds calcium into bone tissue, and also activates MGP, which prevents calcium from depositing in arteries. It's the difference between calcium strengthening your bones vs. calcifying your blood vessels.",
+        citation: "Schurgers et al., Blood, 2007",
+      },
+      {
+        ingredients: ["Vitamin D3", "Vitamin K2"],
+        relationship: "complementary regulation",
+        bottomLine: "D3 and K2 are a team — D3 helps you absorb calcium, and K2 makes sure it ends up in the right place. You really need both.",
+        explanation: "D3 increases the body's production of K2-dependent proteins. Taking D3 without K2 can lead to calcium going to the wrong places. Together, they ensure calcium is both absorbed and properly directed.",
+        citation: "van Ballegooijen et al., International Journal of Endocrinology, 2017",
+      },
+      {
+        ingredients: ["Vitamin B12", "Calcium", "Vitamin D3"],
+        relationship: "metabolic energy support",
+        bottomLine: "B12 gives your body the energy it needs to actually rebuild and repair bones. It also helps make red blood cells that carry nutrients to your bones.",
+        explanation: "B12 fuels the energy metabolism that bones need for remodeling and repair. It also supports red blood cell production, which delivers oxygen and nutrients to bone tissue during the rebuilding process.",
+      },
+    ],
+  },
+  resultsTimeline: {
+    summary: "Bone and heart benefits build gradually. Calcium and its cofactors need consistent daily intake to create meaningful, lasting changes in bone density and cardiovascular markers.",
+    stages: [
+      {
+        period: "Days 1-7",
+        title: "Getting Started",
+        physiological: "D3 blood levels begin rising within 24-48 hours. Calcium absorption is improving but bone remodeling hasn't started yet.",
+        noticeable: "No noticeable changes yet — this is completely normal. Structural supplements work on a longer timeline than energy supplements.",
+        advice: "Take with your largest meal of the day for best absorption. Meals with healthy fats enhance D3 uptake.",
+      },
+      {
+        period: "Weeks 2-4",
+        title: "Building Foundations",
+        physiological: "D3 serum levels are approaching therapeutic range. K2-dependent proteins are being activated. Calcium is actively being directed to bone tissue rather than soft tissue.",
+        noticeable: "Some customers notice improved energy from B12. Bone and heart benefits are happening but aren't something you can feel day-to-day.",
+        advice: "Consistency matters more than timing. Pick a meal and stick with it every day.",
+      },
+      {
+        period: "Weeks 5-8",
+        title: "The Compound Effect",
+        physiological: "Bone remodeling markers typically show improvement by week 6. D3 has reached therapeutic range. The full calcium-D3-K2 chain is operating efficiently.",
+        noticeable: "Some customers report sustained energy from B12, and reduced muscle cramping from optimized calcium and D3 levels.",
+        advice: "If you haven't noticed anything yet, that's normal for a structural supplement. The bone and heart benefits are happening even when you can't feel them.",
+      },
+      {
+        period: "Month 3+",
+        title: "Full Protocol Benefits",
+        physiological: "Bone mineral density improvements become measurable on DEXA scans after 3-6 months. Cardiovascular calcium score may stabilize or improve with K2 directing calcium properly.",
+        noticeable: "Long-term bone, cardiovascular, and immune support at full capacity. Most customers notice the difference if they stop for a few weeks.",
+        advice: "Consider retesting vitamin D levels with your doctor — most customers move from deficient to optimal range within 90 days.",
+      },
+    ],
+  },
+  featuredReviews: [
+    {
+      reviewerName: "Linda S.",
+      starRating: 5,
+      reviewText: "My doctor recommended I take calcium with D3 and K2 together, and finding all four in one capsule saves me from taking 4 separate bottles. After 3 months my vitamin D levels went from 22 to 58 — my doctor was thrilled. The capsules are easy to swallow and I haven't had any stomach issues.",
+      isVerifiedPurchase: true,
+      reviewDate: "February 2025",
+    },
+    {
+      reviewerName: "Robert M.",
+      starRating: 5,
+      reviewText: "I'm 72 and was taking calcium carbonate for years before my cardiologist told me I needed K2 to make sure the calcium goes to my bones and not my arteries. This has everything in one product. Been taking it for 6 months now with no issues. Simple and effective.",
+      isVerifiedPurchase: true,
+      reviewDate: "January 2025",
+    },
+    {
+      reviewerName: "Sarah J.",
+      starRating: 4,
+      reviewText: "Good quality supplement with all the right cofactors. I appreciate that it includes B12 since I'm vegetarian and need supplementation. The only downside is having to take 2 capsules — I wish it were a single capsule per day. But the formula itself is solid.",
+      isVerifiedPurchase: true,
+      reviewDate: "December 2024",
+    },
+    {
+      reviewerName: "Michael K.",
+      starRating: 5,
+      reviewText: "After my DEXA scan showed osteopenia at 55, I started researching calcium supplements seriously. Everything I read said you need D3 for absorption and K2 to direct it properly. This was the best all-in-one I found. 8 months in and my follow-up scan showed improvement. Can't say it's solely this supplement, but I'm not changing anything.",
+      isVerifiedPurchase: true,
+      reviewDate: "March 2025",
+    },
+  ],
+  negativeReviewFaq: [
+    {
+      question: "I've been taking this for 2 weeks and don't feel any different — is it working?",
+      answer: "Yes, and this is completely normal. Calcium, D3, K2, and B12 provide structural and metabolic support — they strengthen bones, support heart health, and optimize calcium use in your body. These are real, measurable changes, but they happen at the cellular level over weeks and months, not days. Most customers notice the B12 energy benefit first (weeks 2-4), while bone and heart benefits require 60-90 days of consistent use for measurable results.",
+      sourceTheme: "no_noticeable_effect",
+    },
+    {
+      question: "The capsules upset my stomach — what should I do?",
+      answer: "Calcium supplements can cause mild digestive discomfort when taken on an empty or near-empty stomach. Try taking both capsules with your largest meal of the day along with a full glass of water. Taking them with food that contains some fat also improves D3 absorption. If discomfort continues after a week of adjusted timing, consider splitting the dose — one capsule with breakfast, one with dinner.",
+      sourceTheme: "digestive_discomfort",
+    },
+    {
+      question: "Is 600mg of calcium enough? Other brands have 1000mg+.",
+      answer: "600mg is intentional, not a shortcoming. Most adults get 400-700mg of calcium from food daily, so 600mg of supplementation brings you to the recommended 1000-1200mg total without overshooting. Taking too much calcium at once actually reduces absorption — your body can only absorb about 500mg in a single sitting. This formula prioritizes proper absorption (via D3) and proper delivery (via K2) over raw calcium quantity.",
+      sourceTheme: "dosage_concern",
+    },
+    {
+      question: "Why do I need to take 2 capsules? Can I just take 1?",
+      answer: "The full serving size of 2 capsules delivers the researched-backed amounts of all four nutrients. Taking just 1 capsule gives you half the dose, which may not be enough to reach therapeutic levels — especially for D3 (5000 IU is the full dose) and calcium (600mg is calibrated for daily dietary intake). If you have trouble with 2 capsules, take them at different meals rather than cutting the dose.",
+      sourceTheme: "serving_size_complaint",
+    },
+  ],
 };

@@ -9,9 +9,13 @@ import { trackPageView, trackPlatformSelection } from "@/lib/analytics";
 import PlatformModal from "@/components/platform-select/platform-modal";
 import HeroSection from "@/components/sections/hero-section";
 import UsageSection from "@/components/sections/usage-section";
+import SynergySection from "@/components/sections/synergy-section";
+import TimelineSection from "@/components/sections/timeline-section";
 import BenefitsSection from "@/components/sections/benefits-section";
 import IngredientsSection from "@/components/sections/ingredients-section";
+import ReviewsSection from "@/components/sections/reviews-section";
 import FaqSection from "@/components/sections/faq-section";
+import SupportCalloutSection from "@/components/sections/support-callout-section";
 import ReturnsSection from "@/components/sections/returns-section";
 import ChatWidget from "@/components/chat/chat-widget";
 import BottomNav from "@/components/ui/bottom-nav";
@@ -122,9 +126,17 @@ function ProductPageContent() {
       />
 
       <UsageSection product={product} />
+      <SynergySection product={product} />
+      <TimelineSection product={product} />
       <BenefitsSection product={product} />
       <IngredientsSection product={product} />
+      <ReviewsSection product={product} platform={platform} />
       <FaqSection product={product} />
+      <SupportCalloutSection
+        product={product}
+        platform={platform}
+        onOpenChat={toggleChat}
+      />
       <ReturnsSection
         product={product}
         platform={platform}

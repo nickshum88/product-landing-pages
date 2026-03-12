@@ -265,17 +265,17 @@ export default function ChatWidget({
     </>
   );
 
-  // FAB button
+  // FAB button with text label
   if (!isOpen) {
     return (
       <button
         onClick={handleOpen}
-        className="fixed bottom-[4.5rem] lg:bottom-6 right-5 lg:right-6 w-14 h-14 bg-brand-500 text-white rounded-full shadow-lg shadow-brand-500/20 flex items-center justify-center hover:bg-accent active:scale-95 transition-all z-50"
+        className="fixed bottom-[4.5rem] lg:bottom-6 right-5 lg:right-6 h-12 bg-brand-500 text-white rounded-full shadow-lg shadow-brand-500/20 flex items-center gap-2 px-5 hover:bg-accent active:scale-95 transition-all z-50"
         aria-label="Open chat"
       >
         <svg
-          width="22"
-          height="22"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -285,6 +285,7 @@ export default function ChatWidget({
         >
           <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
         </svg>
+        <span className="text-sm font-medium whitespace-nowrap">Ask a Question</span>
       </button>
     );
   }

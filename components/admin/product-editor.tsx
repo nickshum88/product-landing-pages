@@ -32,6 +32,10 @@ const EMPTY_PRODUCT: Product = {
   faq: [],
   chatbotContext: "",
   suggestedPrompts: [],
+  formulaSynergy: { summary: "", interactions: [] },
+  resultsTimeline: { summary: "", stages: [] },
+  featuredReviews: [],
+  negativeReviewFaq: [],
   supportContacts: {},
 };
 

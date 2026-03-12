@@ -12,6 +12,43 @@ function escapeTemplate(s: string): string {
   return s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$/g, "\\$");
 }
 
+function generateInteractions(product: Product): string {
+  return product.formulaSynergy.interactions
+    .map((i) => {
+      const ingredients = i.ingredients.map((n) => `"${escapeStr(n)}"`).join(", ");
+      const citation = i.citation ? `,\n        citation: "${escapeStr(i.citation)}"` : "";
+      return `      {\n        ingredients: [${ingredients}],\n        relationship: "${escapeStr(i.relationship)}",\n        bottomLine: "${escapeStr(i.bottomLine)}",\n        explanation: "${escapeStr(i.explanation)}"${citation},\n      }`;
+    })
+    .join(",\n");
+}
+
+function generateStages(product: Product): string {
+  return product.resultsTimeline.stages
+    .map(
+      (s) =>
+        `      { period: "${escapeStr(s.period)}", title: "${escapeStr(s.title)}", physiological: "${escapeStr(s.physiological)}", noticeable: "${escapeStr(s.noticeable)}", advice: "${escapeStr(s.advice)}" }`
+    )
+    .join(",\n");
+}
+
+function generateFeaturedReviews(product: Product): string {
+  return product.featuredReviews
+    .map((r) => {
+      const date = r.reviewDate ? `, reviewDate: "${escapeStr(r.reviewDate)}"` : "";
+      return `    { reviewerName: "${escapeStr(r.reviewerName)}", starRating: ${r.starRating}, reviewText: "${escapeStr(r.reviewText)}", isVerifiedPurchase: ${r.isVerifiedPurchase}${date} }`;
+    })
+    .join(",\n");
+}
+
+function generateNegativeReviewFaq(product: Product): string {
+  return product.negativeReviewFaq
+    .map(
+      (f) =>
+        `    { question: "${escapeStr(f.question)}", answer: "${escapeStr(f.answer)}", sourceTheme: "${escapeStr(f.sourceTheme)}" }`
+    )
+    .join(",\n");
+}
+
 function generateSupportContactObj(contact: { phone?: string; email?: string; url?: string; urlLabel?: string }): string {
   const fields: string[] = [];
   if (contact.phone) fields.push(`phone: "${escapeStr(contact.phone)}"`);
@@ -120,6 +157,24 @@ ${faq},
   chatbotContext: \`${escapeTemplate(product.chatbotContext)}\`,
   suggestedPrompts: [
 ${prompts},
+  ],
+  formulaSynergy: {
+    summary: "${escapeStr(product.formulaSynergy.summary)}",
+    interactions: [
+${generateInteractions(product)}
+    ],
+  },
+  resultsTimeline: {
+    summary: "${escapeStr(product.resultsTimeline.summary)}",
+    stages: [
+${generateStages(product)}
+    ],
+  },
+  featuredReviews: [
+${generateFeaturedReviews(product)}
+  ],
+  negativeReviewFaq: [
+${generateNegativeReviewFaq(product)}
   ],${generateSupportContacts(product)}
 };
 `;
