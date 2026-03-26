@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { getProduct } from "@/lib/products";
+import { getBrandBySlug } from "@/lib/brands";
 import { RETURN_POLICIES, PLATFORM_LABELS } from "@/lib/constants";
 import { Platform } from "@/lib/types";
 
@@ -49,6 +50,13 @@ export async function POST(request: NextRequest) {
       .map((f) => `- Theme "${f.sourceTheme}": Q: ${f.question} A: ${f.answer}`)
       .join("\n");
 
+    // Build brand contact info for fallback
+    const brand = getBrandBySlug(product.brand);
+    const brandContact = product.supportContacts?.website || brand?.defaultSupportContacts?.website;
+    const contactLines: string[] = [];
+    if (brandContact?.email) contactLines.push(`Email: ${brandContact.email}`);
+    if (brandContact?.phone) contactLines.push(`Phone: ${brandContact.phone} (Monday–Friday, 5 AM–5 PM PST)`);
+
     const systemPrompt = `${product.chatbotContext}
 
 Customer purchased from: ${platformLabel}
@@ -71,18 +79,25 @@ Steps: ${returnPolicy.steps.join(" → ")}
 ${returnPolicy.important ? `Important: ${returnPolicy.important}` : ""}
 ${returnPolicy.link ? `Direct them to: ${returnPolicy.link.url}` : ""}
 
+DIRECT SUPPORT CONTACT:
+${contactLines.length > 0 ? contactLines.join("\n") : "No direct contact info available."}
+
 CRITICAL RULES:
 - If the customer asks about returns, refunds, or exchanges, provide the platform-specific return instructions above.
 ${platform === "amazon" ? "- NEVER offer to process returns for Amazon customers. They MUST go through Amazon's system. All returns are handled by Amazon." : ""}
 ${platform === "tiktok" ? "- NEVER offer to process returns for TikTok customers. They MUST go through TikTok's system." : ""}
 - Keep responses concise and helpful (2-4 sentences when possible).
 - Be warm, knowledgeable, and transparent — never pushy or sales-oriented.
-- Never make disease treatment, cure, or prevention claims.
-- Recommend consulting a healthcare provider for medical questions or drug interaction concerns.
+- Never make disease treatment, cure, or prevention claims. Do NOT say this product "treats", "cures", "prevents", or "diagnoses" any disease or medical condition.
+- When discussing health benefits, always frame them as "may support", "is associated with", or "research suggests" — never as guaranteed outcomes.
+- When discussing ingredients or benefits, include this context where appropriate: "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
+- Recommend consulting a healthcare provider for medical questions, drug interaction concerns, or if a customer describes specific symptoms or health conditions.
 - Present benefits as educational and evidence-informed, not as guaranteed outcomes.
 - When asked about whether the product works or why these ingredients, reference the formula synergy interactions and explain how the ingredients work together.
 - When asked about timing or when they'll see results, reference the results timeline and set honest expectations based on the specific stage they're likely in.
-- When a customer expresses a concern that matches a known complaint theme, use the pre-built answer but adapt the tone to the conversation.`;
+- When a customer expresses a concern that matches a known complaint theme, use the pre-built answer but adapt the tone to the conversation.
+- If you are unsure about any answer, if the question is outside your knowledge of this product, or if the customer needs help you cannot provide, direct them to our support team: ${contactLines.length > 0 ? contactLines.join(" or ") : "please reach out to our support team for further assistance."}
+- When in doubt, err on the side of caution — it is always better to direct the customer to our support team than to give an uncertain or potentially non-compliant answer.`;
 
     // Stream the response
     const stream = anthropic.messages.stream({
