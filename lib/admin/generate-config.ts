@@ -1,7 +1,7 @@
 import { Product } from "../types";
 
 function toVarName(slug: string): string {
-  return slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+  return slug.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
 }
 
 function escapeStr(s: string): string {

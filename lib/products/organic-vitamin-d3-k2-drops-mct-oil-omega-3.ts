@@ -1,6 +1,6 @@
 import { Product } from "../types";
 
-export const organicVitaminD3K2DropsMctOilOmega-3: Product = {
+export const organicVitaminD3K2DropsMctOilOmega3: Product = {
   slug: "organic-vitamin-d3-k2-drops-mct-oil-omega-3",
   name: "Organic Vitamin D3 K2 Drops with MCT Oil & Omega 3",
   brand: "nusava",
