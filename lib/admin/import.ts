@@ -152,6 +152,53 @@ export async function extractBrandInfo(brandUrl: string): Promise<BrandInfo> {
   };
 }
 
+// --- Review extraction (runs before review elements are stripped) ---
+
+import { FeaturedReview } from "../types";
+
+export function extractReviews(html: string): FeaturedReview[] {
+  const $ = cheerio.load(html);
+  const reviews: FeaturedReview[] = [];
+
+  // Amazon top reviews on the product page
+  $("#cm-cr-dp-review-list .review, #reviewsMedley .review, .cr-widget-FocalReviews .review").each((_, el) => {
+    const reviewEl = $(el);
+
+    // Star rating: "5.0 out of 5 stars" or class like "a-star-5"
+    let starRating = 0;
+    const starText = reviewEl.find(".a-icon-alt").first().text().trim();
+    const starMatch = starText.match(/^(\d(?:\.\d)?)/);
+    if (starMatch) {
+      starRating = Math.round(parseFloat(starMatch[1]));
+    } else {
+      const starClass = reviewEl.find("[class*='a-star-']").first().attr("class") || "";
+      const classMatch = starClass.match(/a-star-(\d)/);
+      if (classMatch) starRating = parseInt(classMatch[1]);
+    }
+
+    const reviewerName = reviewEl.find(".a-profile-name").first().text().trim() || "Amazon Customer";
+    const reviewText = reviewEl.find(".review-text-content, .review-text").first().text().trim();
+    const isVerified = reviewEl.text().includes("Verified Purchase");
+
+    // Review date
+    const dateText = reviewEl.find(".review-date").first().text().trim();
+    const dateMatch = dateText.match(/on\s+(.+)/);
+    const reviewDate = dateMatch ? dateMatch[1] : undefined;
+
+    if (reviewText && reviewText.length > 10 && starRating > 0) {
+      reviews.push({
+        reviewerName,
+        starRating,
+        reviewText: reviewText.slice(0, 500),
+        isVerifiedPurchase: isVerified,
+        ...(reviewDate ? { reviewDate } : {}),
+      });
+    }
+  });
+
+  return reviews.slice(0, 5);
+}
+
 // --- Amazon content extraction ---
 
 export function extractPageContent(html: string): string {
@@ -560,11 +607,6 @@ RESULTS TIMELINE (resultsTimeline):
 - "advice" = reassurance and what to do if they don't notice results yet
 - Be honest — supplements take time, don't overpromise
 
-FEATURED REVIEWS (featuredReviews):
-- Extract 3-5 real reviews from the listing if available in the page content
-- ONLY use reviews that actually appear in the source data — NEVER fabricate reviews
-- If no reviews are in the source, return an empty array
-
 NEGATIVE REVIEW FAQ (negativeReviewFaq):
 - Generate 2-4 entries addressing common supplement complaints (slow results, taste, pill size, etc.)
 - Reframe each complaint as a compassionate question
@@ -691,6 +733,12 @@ export async function* runImport(
     return;
   }
 
+  // Extract reviews from raw HTML before content extraction strips them
+  const extractedReviews = extractReviews(html);
+  if (extractedReviews.length > 0) {
+    yield { progress: `Extracted ${extractedReviews.length} review(s) from listing.` };
+  }
+
   yield { progress: "Extracting product content..." };
   const pageContent = extractPageContent(html);
   if (pageContent.length < 100) {
@@ -728,6 +776,11 @@ export async function* runImport(
       error: `AI analysis failed: ${err instanceof Error ? err.message : "Unknown error"}`,
     };
     return;
+  }
+
+  // Merge directly-extracted reviews (not from Claude) into the product
+  if (extractedReviews.length > 0 && (!product.featuredReviews || product.featuredReviews.length === 0)) {
+    product.featuredReviews = extractedReviews;
   }
 
   // Download hero image and return as base64
