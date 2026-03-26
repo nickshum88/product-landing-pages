@@ -533,7 +533,18 @@ CRITICAL RULES:
 - 6-8 FAQ items covering dosage, ingredients, dietary restrictions, form factor
 - ChatbotContext must include compliance rules (no disease claims, consult healthcare provider)
 - Use brand website colors for primary/accent
-- Return ONLY the JSON object, nothing else`,
+- Return ONLY the JSON object, nothing else
+
+ANTI-HALLUCINATION RULES (HIGHEST PRIORITY):
+- ONLY use information that is explicitly present in the provided page content or images
+- NEVER fabricate, guess, or infer ingredient amounts — if an amount is not visible in the source data, use "[NEEDS REVIEW]" as the amount
+- NEVER invent product claims, certifications, or benefits that are not stated in the listing
+- If the Supplement Facts label image is missing or unreadable, set ALL ingredient amounts to "[NEEDS REVIEW]"
+- If directions/usage instructions are not found in the source, use "[NEEDS REVIEW] - directions not found in listing" as the detail
+- If you cannot determine a field from the source data, use "[NEEDS REVIEW]" as the value rather than guessing
+- For trustBadges, ONLY include certifications explicitly stated in the listing (e.g. "Non-GMO", "Made in USA") — never assume
+- For benefits descriptions, only describe benefits that the listing actually claims — do not add benefits from general knowledge
+- The "[NEEDS REVIEW]" marker tells the human editor exactly which fields need manual verification`,
   });
 
   const response = await anthropic.messages.create({
@@ -551,6 +562,44 @@ CRITICAL RULES:
   if (fenceMatch) jsonStr = fenceMatch[1].trim();
 
   const product = JSON.parse(jsonStr) as Partial<Product>;
+
+  // Post-generation validation: flag missing/empty fields with [NEEDS REVIEW]
+  const warnings: string[] = [];
+
+  if (!product.name || product.name.length < 3) {
+    warnings.push("Product name is missing or too short");
+  }
+  if (!product.tagline) {
+    product.tagline = "[NEEDS REVIEW] - tagline not extracted";
+    warnings.push("Tagline not extracted");
+  }
+  if (!product.ingredients || product.ingredients.length === 0) {
+    warnings.push("No ingredients extracted — Supplement Facts may not have been readable");
+  } else {
+    const missingAmounts = product.ingredients.filter(
+      (i) => !i.amount || i.amount === "[NEEDS REVIEW]" || i.amount === "See label"
+    );
+    if (missingAmounts.length > 0) {
+      warnings.push(
+        `${missingAmounts.length} ingredient(s) missing exact amounts: ${missingAmounts.map((i) => i.name).join(", ")}`
+      );
+    }
+  }
+  if (!product.usageSteps || product.usageSteps.length === 0) {
+    warnings.push("No usage steps extracted — directions may not have been found");
+  }
+  if (!product.benefits || product.benefits.length === 0) {
+    warnings.push("No benefits extracted");
+  }
+  if (!product.trustBadges || product.trustBadges.length === 0) {
+    warnings.push("No trust badges extracted — certifications may not have been found");
+  }
+
+  // Attach warnings as a non-Product field for the UI to display
+  if (warnings.length > 0) {
+    (product as Record<string, unknown>)._importWarnings = warnings;
+  }
+
   return product;
 }
 

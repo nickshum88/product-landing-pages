@@ -8,6 +8,7 @@ interface ProductEditorProps {
   initialData?: Partial<Product> & {
     _heroImageBase64?: string;
     _heroImageMediaType?: string;
+    _importWarnings?: string[];
   };
   isEdit?: boolean;
 }
@@ -675,6 +676,71 @@ export default function ProductEditor({
           {publishResult.message}
         </div>
       )}
+
+      {/* Import warnings + [NEEDS REVIEW] scan */}
+      {(() => {
+        const importWarnings = initialData?._importWarnings || [];
+        // Scan all string fields in the product for [NEEDS REVIEW]
+        const needsReviewFields: string[] = [];
+        const scanValue = (val: unknown, path: string) => {
+          if (typeof val === "string" && val.includes("[NEEDS REVIEW]")) {
+            needsReviewFields.push(path);
+          } else if (Array.isArray(val)) {
+            val.forEach((item, i) => scanValue(item, `${path}[${i}]`));
+          } else if (val && typeof val === "object") {
+            Object.entries(val).forEach(([k, v]) => scanValue(v, `${path}.${k}`));
+          }
+        };
+        scanValue(product, "product");
+
+        if (importWarnings.length === 0 && needsReviewFields.length === 0) return null;
+
+        return (
+          <div className="bg-amber-50 border border-amber-200 p-4">
+            <div className="flex items-start gap-2.5">
+              <span className="text-amber-600 text-lg leading-none mt-0.5">&#9888;</span>
+              <div className="flex-1">
+                <p className="font-semibold text-sm text-amber-900 mb-1">
+                  Review Required Before Publishing
+                </p>
+                {importWarnings.length > 0 && (
+                  <div className="mb-2">
+                    <p className="text-xs font-medium text-amber-800 mb-1">Import issues:</p>
+                    <ul className="text-xs text-amber-800 space-y-0.5">
+                      {importWarnings.map((w, i) => (
+                        <li key={i} className="flex items-start gap-1.5">
+                          <span className="mt-1 w-1 h-1 rounded-full bg-amber-500 flex-shrink-0" />
+                          {w}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {needsReviewFields.length > 0 && (
+                  <div>
+                    <p className="text-xs font-medium text-amber-800 mb-1">
+                      {needsReviewFields.length} field(s) contain &quot;[NEEDS REVIEW]&quot; — search and fix before publishing:
+                    </p>
+                    <ul className="text-xs text-amber-800 space-y-0.5">
+                      {needsReviewFields.slice(0, 10).map((f, i) => (
+                        <li key={i} className="flex items-start gap-1.5">
+                          <span className="mt-1 w-1 h-1 rounded-full bg-amber-500 flex-shrink-0" />
+                          <code className="text-amber-900">{f}</code>
+                        </li>
+                      ))}
+                      {needsReviewFields.length > 10 && (
+                        <li className="text-amber-700">
+                          ...and {needsReviewFields.length - 10} more
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Re-import modal */}
       {showReimportForm && !reimportData && (

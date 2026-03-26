@@ -690,10 +690,19 @@ COLORS:
 
 GENERAL:
 - Extract REAL data — do not invent claims or amounts
-- Use // REVIEW: only when genuinely uncertain about extracted data accuracy
-- Minimize TODO comments — only use when data is truly absent from the listing AND images
 - Prefer shorter, punchier copy for titles and taglines
-- Output ONLY the TypeScript file content, no surrounding explanation`,
+- Output ONLY the TypeScript file content, no surrounding explanation
+
+ANTI-HALLUCINATION RULES (HIGHEST PRIORITY):
+- ONLY use information explicitly present in the provided page content or images
+- NEVER fabricate, guess, or infer ingredient amounts — if not visible, use "// REVIEW: amount not found in source" as a comment and "[NEEDS REVIEW]" as the value
+- NEVER invent product claims, certifications, or benefits not stated in the listing
+- If the Supplement Facts label image is missing or unreadable, mark ALL ingredient amounts with // REVIEW:
+- If directions/usage are not found, mark usageSteps with // REVIEW: and use placeholder text
+- For trustBadges, ONLY include certifications explicitly stated in the listing — never assume
+- For benefits, only describe what the listing actually claims — do not add from general knowledge
+- Use // REVIEW: when genuinely uncertain about data accuracy — this is better than guessing
+- Use // TODO: only when data is truly absent from both listing text AND images`,
   });
 
   const response = await anthropic.messages.create({
