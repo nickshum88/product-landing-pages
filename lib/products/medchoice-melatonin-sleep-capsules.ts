@@ -22,8 +22,8 @@ export const medchoiceMelatoninSleepCapsules: Product = {
   ],
   usageSteps: [
     { icon: "💊", title: "Take 2 Capsules", detail: "Take 2 capsules with a glass of water at least an hour before bedtime" },
-    { icon: "⏰", title: "Timing Matters", detail: "Allow at least 60 minutes before your intended sleep time for optimal absorption" },
-    { icon: "🌙", title: "Create a Routine", detail: "Use consistently as part of your nightly routine with a regular sleep schedule" },
+    { icon: "⏰", title: "Consistent Timing", detail: "Establish a regular bedtime and take consistently as part of your nightly routine" },
+    { icon: "🛌", title: "Prepare for Sleep", detail: "Practice calming activities before bed to maximize the benefits of every dose" },
   ],
   proTips: [
     "Establish a regular bedtime and practice calming activities before bed for best results",
@@ -33,11 +33,9 @@ export const medchoiceMelatoninSleepCapsules: Product = {
   ],
   benefits: [
     { icon: "😴", title: "Sleep Support", description: "Melatonin plays a role in regulating the body's natural sleep-wake cycle, helping to support healthy sleep patterns" },
-    { icon: "🧠", title: "Calming Alpha Waves", description: "L-Theanine is known to encourage alpha brain wave activity, which is often associated with a state of calmness and relaxation" },
-    { icon: "💆", title: "Muscle Relaxation", description: "Magnesium glycinate is a gentle, bioavailable form of magnesium that helps support muscle relaxation as part of a nighttime routine" },
-    { icon: "🌿", title: "Stress Management", description: "Ashwagandha is an adaptogenic herb that has been traditionally used to help the body manage occasional stress" },
-    { icon: "🌸", title: "Gentle Calm", description: "Chamomile has been traditionally used for centuries as a gentle herb to promote relaxation and tranquility" },
-    { icon: "⚖️", title: "Neurotransmitter Balance", description: "GABA is a naturally occurring neurotransmitter that plays a role in promoting feelings of calm and relaxation" },
+    { icon: "🧘", title: "Relaxation Support", description: "L-Theanine is known to encourage alpha brain wave activity, often linked with feelings of calmness and relaxation" },
+    { icon: "⚡", title: "Magnesium Support", description: "Magnesium glycinate is a gentle, bioavailable form that helps support muscle relaxation as part of a nighttime routine" },
+    { icon: "🌿", title: "Botanical Blend", description: "Traditional herbs like ashwagandha, valerian root, and chamomile have been used historically to support evening wind-down routines" },
   ],
   ingredients: [
     { name: "Melatonin", amount: "5 mg", description: "Supports natural sleep-wake cycle regulation" },
@@ -69,22 +67,44 @@ export const medchoiceMelatoninSleepCapsules: Product = {
     "What's the difference between this and regular melatonin?",
   ],
   formulaSynergy: {
-    summary: "",
+    summary: "This formula combines melatonin with complementary botanicals and minerals that traditionally support different aspects of the evening wind-down process.",
     interactions: [
-
+      {
+        ingredients: ["Melatonin", "Magnesium Glycinate"],
+        relationship: "Melatonin supports sleep-wake cycle regulation while magnesium glycinate supports muscle relaxation and nervous system function",
+        bottomLine: "Melatonin helps signal bedtime while magnesium helps your body physically relax",
+        explanation: "Melatonin acts on melatonin receptors in the brain to regulate circadian rhythms, while magnesium glycinate provides bioavailable magnesium that supports GABA function and muscle relaxation through its role in over 300 enzymatic processes",
+      },
+      {
+        ingredients: ["L-Theanine", "GABA"],
+        relationship: "Both compounds support the body's natural relaxation pathways through different mechanisms in the nervous system",
+        bottomLine: "These work together to support calm, relaxed feelings without drowsiness",
+        explanation: "L-theanine promotes alpha brain wave production associated with relaxed alertness, while GABA is the brain's primary inhibitory neurotransmitter that promotes calm feelings",
+      },
+      {
+        ingredients: ["Ashwagandha", "Valerian Root"],
+        relationship: "Traditional adaptogenic and calming herbs that have been used historically to support stress response and evening relaxation",
+        bottomLine: "Two time-tested botanicals that complement each other in supporting nighttime calm",
+        explanation: "Ashwagandha functions as an adaptogen supporting the HPA axis response to stress, while valerian root contains compounds like valerenic acid that interact with GABA receptors",
+      }
     ],
   },
   resultsTimeline: {
-    summary: "",
+    summary: "Most people notice initial sleep support within the first few nights, with more consistent patterns developing over 2-4 weeks of regular use.",
     stages: [
-
+      { period: "Week 1", title: "Initial Sleep Support", physiological: "Melatonin begins supporting natural circadian rhythm regulation while magnesium supports muscle relaxation and nervous system function", noticeable: "You may notice easier time falling asleep and feeling more relaxed at bedtime, though results can vary between individuals", advice: "Be patient and consistent - take at the same time each night and establish a calming bedtime routine to maximize benefits" },
+      { period: "Month 1-2", title: "Consistent Pattern Development", physiological: "Adaptogenic herbs like ashwagandha begin supporting stress response patterns while the full botanical blend works synergistically", noticeable: "Sleep patterns may become more consistent, with improved sleep quality and better morning alertness without grogginess", advice: "Continue taking consistently even if results seem subtle - cumulative benefits often develop gradually over time" },
+      { period: "Month 3+", title: "Optimized Evening Routine", physiological: "The complete formula supports established healthy sleep-wake cycles and stress response patterns for long-term wellness", noticeable: "Your evening wind-down routine should feel natural and effective, with consistent sleep patterns and refreshed mornings", advice: "Maintain consistent use as part of your healthy sleep hygiene practices for continued support" }
     ],
   },
   featuredReviews: [
 
   ],
   negativeReviewFaq: [
-
+    { question: "What if I don't notice results right away?", answer: "Sleep supplements work differently for everyone. For best results, take consistently at the same time each night, establish a calming bedtime routine, and allow 2-4 weeks for your body to adjust. If you don't see improvement after a month of consistent use, consider consulting with a healthcare provider about your sleep concerns.", sourceTheme: "Slow or no results" },
+    { question: "Are the capsules difficult to swallow?", answer: "These are standard-sized capsules designed for easy swallowing with water. If you have difficulty with capsules, you can try taking them with a larger amount of water or a small amount of food. The capsules should not be opened or chewed as this may affect the ingredient release.", sourceTheme: "Pill size concerns" },
+    { question: "What if this makes me feel too sleepy the next day?", answer: "Our formula is specifically designed to avoid next-day grogginess, but individual sensitivity varies. If you experience daytime sleepiness, try taking the capsules earlier in your bedtime routine (2+ hours before sleep) or consult with a healthcare provider about the best approach for your needs.", sourceTheme: "Next-day drowsiness" },
+    { question: "Can I adjust the dosage if 2 capsules seems like too much?", answer: "The recommended dosage is 2 capsules for optimal effectiveness of the complete formula. If you're sensitive to supplements, you might start with 1 capsule to assess your response, but we recommend following the label directions for best results. Always consult with a healthcare provider before modifying supplement dosages.", sourceTheme: "Dosage concerns" }
   ],
   supportContacts: {
     website: { phone: "+1 415-800-4758", email: "hello@getnusava.com" },
