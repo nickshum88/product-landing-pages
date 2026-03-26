@@ -111,7 +111,7 @@ function ProductPageContent() {
   if (!platform || showPlatformPicker) {
     return (
       <PlatformModal
-        productName={product.name}
+        product={product}
         onSelect={handlePlatformSelect}
       />
     );

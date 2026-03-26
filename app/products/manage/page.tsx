@@ -13,6 +13,14 @@ export default function ManageProducts() {
   } | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+
+  const handleCopyUrl = (slug: string) => {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+    navigator.clipboard.writeText(`${baseUrl}/product/${slug}`);
+    setCopiedSlug(slug);
+    setTimeout(() => setCopiedSlug(null), 2000);
+  };
 
   const handleLogout = async () => {
     setLoggingOut(true);
@@ -132,6 +140,12 @@ export default function ManageProducts() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-2 flex-shrink-0">
+                  <button
+                    onClick={() => handleCopyUrl(product.slug)}
+                    className="px-3 py-1.5 text-xs bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
+                  >
+                    {copiedSlug === product.slug ? "Copied!" : "Copy URL"}
+                  </button>
                   <a
                     href={`/product/${product.slug}`}
                     target="_blank"

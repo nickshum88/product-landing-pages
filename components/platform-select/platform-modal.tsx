@@ -1,14 +1,21 @@
 "use client";
 
-import { Platform } from "@/lib/types";
+import { useState } from "react";
+import { Product, Platform } from "@/lib/types";
 import { PLATFORM_LABELS } from "@/lib/constants";
+import { getBrandBySlug } from "@/lib/brands";
 
 interface PlatformModalProps {
-  productName: string;
+  product: Product;
   onSelect: (platform: Platform) => void;
 }
 
-const platforms: { id: Platform; icon: React.ReactNode; desc: string }[] = [
+const platforms: {
+  id: Platform;
+  icon: React.ReactNode;
+  desc: string;
+  color: string;
+}[] = [
   {
     id: "amazon",
     icon: (
@@ -18,6 +25,7 @@ const platforms: { id: Platform; icon: React.ReactNode; desc: string }[] = [
       </svg>
     ),
     desc: "Amazon.com or Amazon app",
+    color: "#ff9900",
   },
   {
     id: "tiktok",
@@ -27,68 +35,97 @@ const platforms: { id: Platform; icon: React.ReactNode; desc: string }[] = [
       </svg>
     ),
     desc: "TikTok Shop in-app purchase",
+    color: "#010101",
   },
   {
     id: "website",
     icon: (
-      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <svg
+        viewBox="0 0 24 24"
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      >
         <circle cx="12" cy="12" r="10" />
         <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
       </svg>
     ),
     desc: "Purchased from our website",
+    color: "#4c9c2e",
   },
 ];
 
 export default function PlatformModal({
-  productName,
+  product,
   onSelect,
 }: PlatformModalProps) {
+  const [imgError, setImgError] = useState(false);
+  const brand = getBrandBySlug(product.brand);
+  const brandName = brand?.name || "Us";
+
   return (
-    <div className="fixed inset-0 z-50 bg-white flex items-center justify-center p-6">
-      <div className="max-w-sm w-full animate-scale-in">
-        <div className="text-center mb-10">
-          <div className="w-12 h-12 mx-auto mb-5 bg-brand-50 flex items-center justify-center">
-            <svg
-              viewBox="0 0 24 24"
-              className="w-6 h-6 text-brand-500"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
-            </svg>
-          </div>
-          <h1 className="font-heading text-3xl font-600 text-gray-900 mb-2">
-            Welcome
+    <div
+      className="fixed inset-0 z-50 flex flex-col items-center overflow-y-auto"
+      style={{ backgroundColor: product.colors.background }}
+    >
+      {/* Gradient overlay for depth */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at 50% 0%, ${product.colors.accent}18 0%, transparent 60%)`,
+        }}
+      />
+
+      <div className="relative max-w-sm w-full px-6 py-10 animate-scale-in">
+        {/* Product image */}
+        <div className="w-40 h-40 mx-auto mb-6 relative">
+          <div
+            className="absolute inset-4 rounded-full blur-2xl opacity-20"
+            style={{ backgroundColor: product.colors.accent }}
+          />
+          <img
+            src={imgError ? "/products/placeholder.svg" : product.heroImage}
+            alt={product.name}
+            className="w-full h-full object-contain drop-shadow-lg relative animate-fade-up mix-blend-multiply"
+            onError={() => setImgError(true)}
+          />
+        </div>
+
+        {/* Welcome copy */}
+        <div className="text-center mb-8">
+          <h1 className="font-heading font-bold text-2xl text-gray-900 mb-2 animate-fade-up [animation-delay:100ms]">
+            Thanks for Choosing {brandName}!
           </h1>
-          <p className="text-gray-600 text-[15px] leading-relaxed">
-            Where did you purchase your{" "}
-            <span className="text-gray-900 font-medium">{productName}</span>?
+          <p className="text-gray-600 text-[15px] leading-relaxed animate-fade-up [animation-delay:200ms]">
+            Let us know where you made your purchase so that we can give you the
+            best experience.
           </p>
         </div>
 
-        <div className="space-y-3">
-          {platforms.map(({ id, icon, desc }) => (
+        {/* Platform buttons */}
+        <div className="space-y-3 animate-fade-up [animation-delay:300ms]">
+          {platforms.map(({ id, icon, desc, color }) => (
             <button
               key={id}
               onClick={() => onSelect(id)}
-              className="w-full p-5 bg-gray-50 hover:bg-brand-50 active:scale-[0.98] text-left transition-all flex items-center gap-4 border border-gray-100 hover:border-brand-200"
+              className="group w-full p-4 bg-white/80 backdrop-blur-sm hover:bg-white active:scale-[0.98] text-left transition-all flex items-center gap-4 border border-gray-200/60 hover:border-gray-300 shadow-sm hover:shadow-md"
             >
-              <span className="w-12 h-12 bg-white flex items-center justify-center text-gray-700 flex-shrink-0 border border-gray-100">
+              <span
+                className="w-11 h-11 flex items-center justify-center text-white flex-shrink-0 rounded-lg transition-transform group-hover:scale-105"
+                style={{ backgroundColor: color }}
+              >
                 {icon}
               </span>
               <div className="flex-1 min-w-0">
-                <p className="font-heading font-600 text-gray-900">
+                <p className="font-heading font-semibold text-gray-900">
                   {PLATFORM_LABELS[id]}
                 </p>
                 <p className="text-sm text-gray-500 mt-0.5">{desc}</p>
               </div>
               <svg
                 viewBox="0 0 20 20"
-                className="w-5 h-5 text-gray-400 flex-shrink-0"
+                className="w-5 h-5 text-gray-300 group-hover:text-gray-500 flex-shrink-0 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
@@ -99,8 +136,12 @@ export default function PlatformModal({
           ))}
         </div>
 
-        <p className="text-xs text-gray-500 text-center mt-8">
-          This helps us show the right support information for your purchase.
+        {/* Trust signal */}
+        <p
+          className="text-xs text-center mt-8 font-medium animate-fade-up [animation-delay:400ms]"
+          style={{ color: product.colors.accent }}
+        >
+          Your personalized product guide is ready
         </p>
       </div>
     </div>
