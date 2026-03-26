@@ -2,12 +2,12 @@
 
 import { useState, useRef, useEffect } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { getAllProducts, getProductsByBrand } from "@/lib/products";
-import { getBrandByDomain } from "@/lib/brands";
+import { getAllProducts } from "@/lib/products";
 import { Platform, Product } from "@/lib/types";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com";
+import { getBrandBaseUrl } from "@/lib/brands";
+import ProductFilterBar, {
+  useFilteredProducts,
+} from "@/components/admin/product-filter-bar";
 
 const URL_VARIANTS: Array<{ label: string; source?: Platform }> = [
   { label: "Generic (shows picker)" },
@@ -16,8 +16,8 @@ const URL_VARIANTS: Array<{ label: string; source?: Platform }> = [
   { label: "Website", source: "website" },
 ];
 
-function buildUrl(slug: string, source?: Platform) {
-  const base = `${SITE_URL}/product/${slug}`;
+function buildUrl(brandSlug: string, slug: string, source?: Platform) {
+  const base = `${getBrandBaseUrl(brandSlug)}/product/${slug}`;
   return source ? `${base}?source=${source}` : base;
 }
 
@@ -89,11 +89,13 @@ function QRCard({
 }
 
 export default function ProductsAdmin() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [search, setSearch] = useState("");
+  const [brandFilter, setBrandFilter] = useState("");
+  const products = useFilteredProducts(allProducts, search, brandFilter);
 
   useEffect(() => {
-    const brand = getBrandByDomain(window.location.hostname);
-    setProducts(brand ? getProductsByBrand(brand.slug) : getAllProducts());
+    setAllProducts(getAllProducts());
   }, []);
 
   return (
@@ -108,16 +110,35 @@ export default function ProductsAdmin() {
           </p>
         </div>
 
+        {/* Filter bar */}
+        {allProducts.length > 0 && (
+          <div className="mb-8">
+            <ProductFilterBar
+              products={allProducts}
+              search={search}
+              onSearchChange={setSearch}
+              brandFilter={brandFilter}
+              onBrandFilterChange={setBrandFilter}
+            />
+          </div>
+        )}
+
         {products.length === 0 && (
           <div className="text-center py-16 text-gray-400">
-            <p className="text-lg mb-1">No products configured yet.</p>
-            <p className="text-sm">
-              Run{" "}
-              <code className="bg-gray-100 px-2 py-0.5 text-gray-600">
-                npx ts-node scripts/import-product.ts --asin=&quot;B0XXXXXXXXX&quot;
-              </code>{" "}
-              to add your first product.
-            </p>
+            {allProducts.length === 0 ? (
+              <>
+                <p className="text-lg mb-1">No products configured yet.</p>
+                <p className="text-sm">
+                  Run{" "}
+                  <code className="bg-gray-100 px-2 py-0.5 text-gray-600">
+                    npx ts-node scripts/import-product.ts --asin=&quot;B0XXXXXXXXX&quot;
+                  </code>{" "}
+                  to add your first product.
+                </p>
+              </>
+            ) : (
+              <p className="text-lg">No products match your search.</p>
+            )}
           </div>
         )}
 
@@ -156,7 +177,7 @@ export default function ProductsAdmin() {
                   </div>
                 </div>
                 <a
-                  href={`/product/${product.slug}`}
+                  href={buildUrl(product.brand, product.slug)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-shrink-0 px-4 py-2 text-sm font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors"
@@ -174,7 +195,7 @@ export default function ProductsAdmin() {
                   {URL_VARIANTS.map(({ label, source }) => (
                     <QRCard
                       key={label}
-                      url={buildUrl(product.slug, source)}
+                      url={buildUrl(product.brand, product.slug, source)}
                       label={label}
                       slug={product.slug}
                     />

@@ -69,3 +69,15 @@ export function getBrandBySlug(slug: string): BrandConfig | null {
 export function getAllBrands(): BrandConfig[] {
   return brands;
 }
+
+/**
+ * Get the production base URL for a brand (e.g., "https://pages.medchoice.co").
+ * Uses the first (primary) domain. Falls back to NEXT_PUBLIC_SITE_URL or current origin.
+ */
+export function getBrandBaseUrl(brandSlug: string): string {
+  const brand = getBrandBySlug(brandSlug);
+  if (brand && brand.domains.length > 0) {
+    return `https://${brand.domains[0]}`;
+  }
+  return process.env.NEXT_PUBLIC_SITE_URL || "";
+}

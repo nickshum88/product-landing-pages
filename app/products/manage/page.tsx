@@ -3,9 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { getAllProducts } from "@/lib/products";
+import { getBrandBaseUrl } from "@/lib/brands";
+import ProductFilterBar, {
+  useFilteredProducts,
+} from "@/components/admin/product-filter-bar";
 
 export default function ManageProducts() {
-  const products = getAllProducts();
+  const allProducts = getAllProducts();
   const [loggingOut, setLoggingOut] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<{
     slug: string;
@@ -14,9 +18,12 @@ export default function ManageProducts() {
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [brandFilter, setBrandFilter] = useState("");
+  const products = useFilteredProducts(allProducts, search, brandFilter);
 
-  const handleCopyUrl = (slug: string) => {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+  const handleCopyUrl = (brandSlug: string, slug: string) => {
+    const baseUrl = getBrandBaseUrl(brandSlug);
     navigator.clipboard.writeText(`${baseUrl}/product/${slug}`);
     setCopiedSlug(slug);
     setTimeout(() => setCopiedSlug(null), 2000);
@@ -90,16 +97,37 @@ export default function ManageProducts() {
           </div>
         </div>
 
+        {/* Filter bar */}
+        {allProducts.length > 0 && (
+          <div className="mb-6">
+            <ProductFilterBar
+              products={allProducts}
+              search={search}
+              onSearchChange={setSearch}
+              brandFilter={brandFilter}
+              onBrandFilterChange={setBrandFilter}
+            />
+          </div>
+        )}
+
         {/* Product list */}
         {products.length === 0 ? (
           <div className="bg-white border border-gray-200 p-12 text-center">
-            <p className="text-gray-500 mb-2">No products yet.</p>
-            <Link
-              href="/products/manage/new"
-              className="text-sm text-gray-900 underline hover:no-underline"
-            >
-              Add your first product
-            </Link>
+            {allProducts.length === 0 ? (
+              <>
+                <p className="text-gray-500 mb-2">No products yet.</p>
+                <Link
+                  href="/products/manage/new"
+                  className="text-sm text-gray-900 underline hover:no-underline"
+                >
+                  Add your first product
+                </Link>
+              </>
+            ) : (
+              <p className="text-gray-500">
+                No products match your search.
+              </p>
+            )}
           </div>
         ) : (
           <div className="space-y-3">
@@ -141,13 +169,13 @@ export default function ManageProducts() {
                 {/* Actions */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
-                    onClick={() => handleCopyUrl(product.slug)}
+                    onClick={() => handleCopyUrl(product.brand, product.slug)}
                     className="px-3 py-1.5 text-xs bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
                   >
                     {copiedSlug === product.slug ? "Copied!" : "Copy URL"}
                   </button>
                   <a
-                    href={`/product/${product.slug}`}
+                    href={`${getBrandBaseUrl(product.brand)}/product/${product.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-1.5 text-xs bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
