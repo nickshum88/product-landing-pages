@@ -596,6 +596,10 @@ export default function ProductEditor({
       if (mergeSelections.faq && reimportData.faq) updated.faq = reimportData.faq;
       if (mergeSelections.chatbotContext && reimportData.chatbotContext) updated.chatbotContext = reimportData.chatbotContext;
       if (mergeSelections.suggestedPrompts && reimportData.suggestedPrompts) updated.suggestedPrompts = reimportData.suggestedPrompts;
+      if (mergeSelections.formulaSynergy && reimportData.formulaSynergy) updated.formulaSynergy = reimportData.formulaSynergy;
+      if (mergeSelections.resultsTimeline && reimportData.resultsTimeline) updated.resultsTimeline = reimportData.resultsTimeline;
+      if (mergeSelections.featuredReviews && reimportData.featuredReviews) updated.featuredReviews = reimportData.featuredReviews;
+      if (mergeSelections.negativeReviewFaq && reimportData.negativeReviewFaq) updated.negativeReviewFaq = reimportData.negativeReviewFaq;
       return updated;
     });
     if (mergeSelections.heroImage && reimportData._heroImageBase64) {
@@ -620,6 +624,10 @@ export default function ProductEditor({
     { key: "faq", label: "FAQ" },
     { key: "chatbotContext", label: "Chatbot Context" },
     { key: "suggestedPrompts", label: "Suggested Prompts" },
+    { key: "formulaSynergy", label: "Formula Synergy" },
+    { key: "resultsTimeline", label: "Results Timeline" },
+    { key: "featuredReviews", label: "Featured Reviews" },
+    { key: "negativeReviewFaq", label: "Negative Review FAQ" },
   ];
 
   return (
