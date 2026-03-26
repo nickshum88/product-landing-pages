@@ -22,12 +22,15 @@ export const RETURN_POLICIES: Record<Platform, ReturnPolicy> = {
   tiktok: {
     heading: "Return Through TikTok",
     message:
-      "Since you purchased through TikTok Shop, your return is handled through TikTok's system.",
+      "Since you purchased through TikTok Shop, your refund or replacement is handled through TikTok's system.",
     steps: [
-      "Open the TikTok app",
-      "Tap Profile → Settings → Orders",
-      'Find your order and tap "Request Return"',
-      "Follow TikTok's return process",
+      "Open the TikTok app and go to Shop",
+      "Tap Your Orders",
+      "Go to All Orders and select the item you want to return",
+      "Tap Request Refund",
+      "Choose the reason for your request and tap Continue",
+      "Upload any required photos or provide details about the issue",
+      "Review your request and tap Submit",
     ],
     secondary:
       "TikTok Shop has its own buyer protection program that covers your purchase.",
