@@ -523,7 +523,17 @@ Return ONLY a valid JSON object (no markdown, no code fences) with this exact st
   "ingredients": [{"name": "ingredient", "amount": "exact amount", "description": "what it does"}],
   "faq": [{"question": "q", "answer": "a"}],
   "chatbotContext": "full context string with compliance rules",
-  "suggestedPrompts": ["prompt1", "prompt2", "prompt3", "prompt4"]
+  "suggestedPrompts": ["prompt1", "prompt2", "prompt3", "prompt4"],
+  "formulaSynergy": {
+    "summary": "One sentence explaining why these ingredients work together",
+    "interactions": [{"ingredients": ["Ingredient A", "Ingredient B"], "relationship": "how they interact", "bottomLine": "plain-English summary (8th grade reading level)", "explanation": "detailed scientific explanation", "citation": "study reference if available"}]
+  },
+  "resultsTimeline": {
+    "summary": "One sentence about what to expect over time",
+    "stages": [{"period": "Week 1", "title": "stage title", "physiological": "what happens in the body", "noticeable": "what the customer might feel", "advice": "what to do if no results yet"}]
+  },
+  "featuredReviews": [{"reviewerName": "Name", "starRating": 5, "reviewText": "review text", "isVerifiedPurchase": true}],
+  "negativeReviewFaq": [{"question": "complaint reframed as compassionate question", "answer": "genuinely helpful answer", "sourceTheme": "underlying complaint theme"}]
 }
 
 CRITICAL RULES:
@@ -534,6 +544,31 @@ CRITICAL RULES:
 - ChatbotContext must include compliance rules (no disease claims, consult healthcare provider)
 - Use brand website colors for primary/accent
 - Return ONLY the JSON object, nothing else
+
+FORMULA SYNERGY (formulaSynergy):
+- Generate 2-4 ingredient interactions explaining how key ingredients work together
+- Each interaction pairs 2-3 ingredients and explains the scientific relationship
+- "bottomLine" should be plain English (8th grade reading level)
+- "explanation" is the detailed science
+- Include citations to real published studies when possible — do NOT fabricate citations
+- If no legitimate citation exists, omit the citation field
+
+RESULTS TIMELINE (resultsTimeline):
+- Generate 3 stages: short-term (Week 1), medium-term (Month 1-2), long-term (Month 3+)
+- "physiological" = what's happening in the body at the cellular/system level
+- "noticeable" = what the customer might actually feel or notice
+- "advice" = reassurance and what to do if they don't notice results yet
+- Be honest — supplements take time, don't overpromise
+
+FEATURED REVIEWS (featuredReviews):
+- Extract 3-5 real reviews from the listing if available in the page content
+- ONLY use reviews that actually appear in the source data — NEVER fabricate reviews
+- If no reviews are in the source, return an empty array
+
+NEGATIVE REVIEW FAQ (negativeReviewFaq):
+- Generate 2-4 entries addressing common supplement complaints (slow results, taste, pill size, etc.)
+- Reframe each complaint as a compassionate question
+- Provide genuinely helpful, product-specific answers
 
 ANTI-HALLUCINATION RULES (HIGHEST PRIORITY):
 - ONLY use information that is explicitly present in the provided page content or images

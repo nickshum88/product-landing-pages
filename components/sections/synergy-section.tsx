@@ -96,6 +96,8 @@ export default function SynergySection({ product }: SynergySectionProps) {
     { staggerDelay: 150 }
   );
 
+  if (product.formulaSynergy.interactions.length === 0) return null;
+
   return (
     <>
       <div className="section-divider" />

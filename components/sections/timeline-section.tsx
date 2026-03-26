@@ -114,6 +114,8 @@ export default function TimelineSection({ product }: TimelineSectionProps) {
     { staggerDelay: 200 }
   );
 
+  if (product.resultsTimeline.stages.length === 0) return null;
+
   return (
     <>
       <div className="section-divider" />

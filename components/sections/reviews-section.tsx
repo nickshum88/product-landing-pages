@@ -112,6 +112,8 @@ export default function ReviewsSection({
     { staggerDelay: 120 }
   );
 
+  if (product.featuredReviews.length === 0) return null;
+
   // Horizontal scroll shadow indicators for mobile
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollRight, setCanScrollRight] = useState(false);
