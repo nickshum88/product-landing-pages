@@ -584,7 +584,7 @@ ANTI-HALLUCINATION RULES (HIGHEST PRIORITY):
 
   const response = await anthropic.messages.create({
     model: "claude-sonnet-4-20250514",
-    max_tokens: 8192,
+    max_tokens: 16384,
     messages: [{ role: "user", content }],
   });
 
@@ -628,6 +628,24 @@ ANTI-HALLUCINATION RULES (HIGHEST PRIORITY):
   }
   if (!product.trustBadges || product.trustBadges.length === 0) {
     warnings.push("No trust badges extracted — certifications may not have been found");
+  }
+  if (!product.formulaSynergy || !product.formulaSynergy.interactions?.length) {
+    warnings.push("Formula Synergy section not generated — may need manual entry");
+    if (!product.formulaSynergy) {
+      product.formulaSynergy = { summary: "", interactions: [] };
+    }
+  }
+  if (!product.resultsTimeline || !product.resultsTimeline.stages?.length) {
+    warnings.push("Results Timeline section not generated — may need manual entry");
+    if (!product.resultsTimeline) {
+      product.resultsTimeline = { summary: "", stages: [] };
+    }
+  }
+  if (!product.featuredReviews) {
+    product.featuredReviews = [];
+  }
+  if (!product.negativeReviewFaq) {
+    product.negativeReviewFaq = [];
   }
 
   // Attach warnings as a non-Product field for the UI to display
