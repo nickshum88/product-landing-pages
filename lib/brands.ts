@@ -25,7 +25,7 @@ export const brands: BrandConfig[] = [
     domains: ["pages.nusava.com", "www.pages.nusava.com"],
     defaultSupportContacts: {
       website: {
-        phone: "415-800-4758",
+        phone: "+1 415-800-4758",
         email: "hello@getnusava.com",
       },
     },
@@ -36,7 +36,7 @@ export const brands: BrandConfig[] = [
     domains: ["pages.medchoice.co", "www.pages.medchoice.co"],
     defaultSupportContacts: {
       website: {
-        phone: "510-470-6744",
+        phone: "+1 510-470-6744",
         email: "support@medchoice.co",
       },
     },
@@ -47,7 +47,7 @@ export const brands: BrandConfig[] = [
     domains: ["pages.getprimemd.com", "www.pages.getprimemd.com"],
     defaultSupportContacts: {
       website: {
-        phone: "424-256-1649",
+        phone: "+1 424-256-1649",
         email: "hi@getprimemd.com",
       },
     },

@@ -35,16 +35,10 @@ export const RETURN_POLICIES: Record<Platform, ReturnPolicy> = {
   website: {
     heading: "We're Here to Help",
     message:
-      "Since you purchased directly from our website, we can handle your return directly.",
-    steps: [
-      `Email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@yourdomain.com"} with your order number`,
-      `Or use our return portal: ${process.env.NEXT_PUBLIC_RETURN_PORTAL_URL || "https://yourdomain.com/returns"}`,
-    ],
-    secondary: "Most returns are processed within 3-5 business days.",
-    link: {
-      label: "Go to Return Portal",
-      url: process.env.NEXT_PUBLIC_RETURN_PORTAL_URL || "https://yourdomain.com/returns",
-    },
+      "Since you purchased directly from our website, we can help you directly. All of our products come with a 90-day satisfaction guarantee.",
+    steps: [],
+    secondary:
+      "Our 90-day guarantee means you can try the product risk-free. If you're not satisfied for any reason, reach out and we'll make it right.",
   },
 };
 

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Product, Platform, SupportContact } from "@/lib/types";
 import { RETURN_POLICIES, PLATFORM_LABELS } from "@/lib/constants";
+import { getBrandBySlug } from "@/lib/brands";
 import { trackExternalLink, trackReturnInstructionsViewed } from "@/lib/analytics";
 import SectionWrapper from "@/components/ui/section-wrapper";
 
@@ -12,39 +13,18 @@ interface ReturnsSectionProps {
   onOpenChat: () => void;
 }
 
-function getWebsiteSteps(contact: SupportContact | undefined): string[] {
-  const steps: string[] = [];
-  if (contact?.email) {
-    steps.push(`Email us at ${contact.email} with your order number`);
-  }
-  if (contact?.phone) {
-    steps.push(`Or call us at ${contact.phone}`);
-  }
-  if (contact?.url) {
-    steps.push(`Or use our return portal: ${contact.url}`);
-  }
-  // If no contact info provided, fall back to env var defaults
-  if (steps.length === 0) {
-    const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@yourdomain.com";
-    const portalUrl = process.env.NEXT_PUBLIC_RETURN_PORTAL_URL || "https://yourdomain.com/returns";
-    steps.push(`Email ${email} with your order number`);
-    steps.push(`Or use our return portal: ${portalUrl}`);
-  }
-  return steps;
-}
+const PHONE_HOURS = "Monday\u2013Friday, 5 AM\u2013 5 PM PST";
 
-function getWebsiteLink(contact: SupportContact | undefined) {
-  if (contact?.url) {
-    return {
-      label: contact.urlLabel || "Go to Return Portal",
-      url: contact.url,
-    };
-  }
-  const portalUrl = process.env.NEXT_PUBLIC_RETURN_PORTAL_URL;
-  if (portalUrl) {
-    return { label: "Go to Return Portal", url: portalUrl };
-  }
-  return null;
+/**
+ * Resolve the support contact for a given product + platform.
+ * Priority: product-level override > brand default > null
+ */
+function resolveContact(product: Product, platform: Platform): SupportContact | undefined {
+  const productContact = product.supportContacts?.[platform];
+  if (productContact) return productContact;
+
+  const brand = getBrandBySlug(product.brand);
+  return brand?.defaultSupportContacts?.[platform];
 }
 
 export default function ReturnsSection({
@@ -53,7 +33,7 @@ export default function ReturnsSection({
   onOpenChat,
 }: ReturnsSectionProps) {
   const basePolicy = RETURN_POLICIES[platform];
-  const contact = product.supportContacts?.[platform];
+  const contact = resolveContact(product, platform);
   const tracked = useRef(false);
 
   useEffect(() => {
@@ -63,9 +43,9 @@ export default function ReturnsSection({
     }
   }, [product.slug, platform]);
 
-  // Build the effective policy by merging base with product-level contacts
-  const steps = platform === "website" ? getWebsiteSteps(contact) : basePolicy.steps;
-  const link = platform === "website" ? getWebsiteLink(contact) : basePolicy.link;
+  // For website, steps come from the resolved contact info (not from constants)
+  const steps = platform === "website" ? [] : basePolicy.steps;
+  const link = platform !== "website" ? basePolicy.link : null;
 
   // Show contact info for Amazon/TikTok if provided
   const hasExtraContact = platform !== "website" && contact && (contact.phone || contact.email);
@@ -87,21 +67,23 @@ export default function ReturnsSection({
           </p>
         </div>
 
-        {/* Steps */}
-        <div className="p-5">
-          <ol className="space-y-3">
-            {steps.map((step, index) => (
-              <li key={index} className="flex gap-3">
-                <span className="flex-shrink-0 w-7 h-7 rounded-full bg-brand-50 text-brand-700 font-semibold text-xs flex items-center justify-center">
-                  {index + 1}
-                </span>
-                <span className="text-sm text-gray-600 leading-relaxed pt-1">
-                  {step}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </div>
+        {/* Steps (Amazon/TikTok only — website uses contact buttons below) */}
+        {steps.length > 0 && (
+          <div className="p-5">
+            <ol className="space-y-3">
+              {steps.map((step, index) => (
+                <li key={index} className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-brand-50 text-brand-700 font-semibold text-xs flex items-center justify-center">
+                    {index + 1}
+                  </span>
+                  <span className="text-sm text-gray-600 leading-relaxed pt-1">
+                    {step}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
 
         {/* Important callout */}
         {basePolicy.important && (
@@ -188,6 +170,15 @@ export default function ReturnsSection({
           )}
 
           {/* Website: contact info buttons */}
+          {platform === "website" && contact?.email && (
+            <a
+              href={`mailto:${contact.email}`}
+              className="block w-full text-center py-3.5 px-4 bg-brand-500 text-white font-medium text-sm hover:bg-accent active:scale-[0.98] transition-all"
+            >
+              Email Us at {contact.email}
+            </a>
+          )}
+
           {platform === "website" && contact?.phone && (
             <a
               href={`tel:${contact.phone}`}
@@ -197,13 +188,10 @@ export default function ReturnsSection({
             </a>
           )}
 
-          {platform === "website" && contact?.email && (
-            <a
-              href={`mailto:${contact.email}`}
-              className="block w-full text-center py-3.5 px-4 bg-white text-gray-700 font-medium text-sm border border-gray-200 hover:bg-gray-50 active:scale-[0.98] transition-all"
-            >
-              Email {contact.email}
-            </a>
+          {platform === "website" && contact?.phone && (
+            <p className="text-xs text-gray-500 text-center">
+              Phone hours: {PHONE_HOURS}
+            </p>
           )}
         </div>
 
