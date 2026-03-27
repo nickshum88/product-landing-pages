@@ -7,6 +7,7 @@ import { medchoiceMelatoninSleepCapsules } from "./medchoice-melatonin-sleep-cap
 import { liquidCollagenBiotinHairSkinNails } from "./liquid-collagen-biotin-hair-skin-nails";
 import { fishOilOmega3D3K2Coq10 } from "./fish-oil-omega-3-d3-k2-coq10";
 import { methylatedBComplexLiquidDrops2Pack } from "./methylated-b-complex-liquid-drops-2-pack";
+import { alphaGpcGinkgoBilobaNootropicBrainSupplement } from "./alpha-gpc-ginkgo-biloba-nootropic-brain-supplement";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -17,6 +18,7 @@ const products: Record<string, Product> = {
   "liquid-collagen-biotin-hair-skin-nails": liquidCollagenBiotinHairSkinNails,
   "fish-oil-omega-3-d3-k2-coq10": fishOilOmega3D3K2Coq10,
   "methylated-b-complex-liquid-drops-2-pack": methylatedBComplexLiquidDrops2Pack,
+  "alpha-gpc-ginkgo-biloba-nootropic-brain-supplement": alphaGpcGinkgoBilobaNootropicBrainSupplement,
 };
 
 export function getProduct(slug: string): Product | undefined {
