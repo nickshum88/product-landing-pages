@@ -4,6 +4,7 @@ import { calciumD3K2B12Supplement } from "./calcium-d3-k2-b12-supplement";
 import { turmericBioperineGarlicGingerCapsules } from "./turmeric-bioperine-garlic-ginger-capsules";
 import { organicVitaminD3K2DropsMctOilOmega3 } from "./organic-vitamin-d3-k2-drops-mct-oil-omega-3";
 import { medchoiceMelatoninSleepCapsules } from "./medchoice-melatonin-sleep-capsules";
+import { liquidCollagenBiotinHairSkinNails } from "./liquid-collagen-biotin-hair-skin-nails";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -11,6 +12,7 @@ const products: Record<string, Product> = {
   "turmeric-bioperine-garlic-ginger-capsules": turmericBioperineGarlicGingerCapsules,
   "organic-vitamin-d3-k2-drops-mct-oil-omega-3": organicVitaminD3K2DropsMctOilOmega3,
   "medchoice-melatonin-sleep-capsules": medchoiceMelatoninSleepCapsules,
+  "liquid-collagen-biotin-hair-skin-nails": liquidCollagenBiotinHairSkinNails,
 };
 
 export function getProduct(slug: string): Product | undefined {
