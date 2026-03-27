@@ -3,7 +3,7 @@ import { Product } from "../types";
 export const medchoiceMelatoninSleepCapsules: Product = {
   slug: "medchoice-melatonin-sleep-capsules",
   name: "MedChoice 12-in-1 Melatonin Sleep Capsules",
-  brand: "nusava",
+  brand: "medchoice",
   tagline: "Natural sleep support with melatonin, magnesium, and calming botanicals for restful nights and energized mornings.",
   heroImage: "/products/medchoice-melatonin-sleep-capsules.jpg",
   amazonUrl: "https://www.amazon.com/dp/B099JXNWYL",
