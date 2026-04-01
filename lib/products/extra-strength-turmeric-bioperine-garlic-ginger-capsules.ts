@@ -88,7 +88,7 @@ export const extraStrengthTurmericBioperineGarlicGingerCapsules: Product = {
     ],
   },
   featuredReviews: [
-    { reviewerName: "[NEEDS REVIEW]", starRating: 5, reviewText: "[NEEDS REVIEW - specific reviews not provided in listing]", isVerifiedPurchase: true }
+    // TODO: Add real customer reviews from Amazon listing
   ],
   negativeReviewFaq: [
     { question: "I've been taking this for a week and don't feel different - is this normal?", answer: "Absolutely normal! Turmeric works gradually and is best taken as part of a long-term daily routine for at least 60 days. Many people notice subtle changes within several weeks, but the most meaningful benefits develop with consistent use over months.", sourceTheme: "slow or no immediate results" },

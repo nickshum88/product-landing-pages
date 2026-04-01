@@ -96,7 +96,7 @@ export const melatoninFreeSleepSupportCapsules: Product = {
     ],
   },
   featuredReviews: [
-    { reviewerName: "[NEEDS REVIEW]", starRating: [NEEDS REVIEW], reviewText: "[NEEDS REVIEW]", isVerifiedPurchase: [NEEDS REVIEW] }
+    // TODO: Add real customer reviews from Amazon listing
   ],
   negativeReviewFaq: [
     { question: "What if I don't feel effects right away?", answer: "Natural sleep supplements typically take 1-2 weeks to show full effects as your body adjusts. Unlike melatonin, this gentle formula works by supporting your body's own processes rather than forcing immediate drowsiness. Try taking it consistently for at least 2 weeks while maintaining good sleep hygiene.", sourceTheme: "Slow or no immediate results" },

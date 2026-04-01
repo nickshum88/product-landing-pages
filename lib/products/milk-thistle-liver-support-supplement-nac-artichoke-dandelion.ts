@@ -99,7 +99,7 @@ export const milkThistleLiverSupportSupplementNacArtichokeDandelion: Product = {
     ],
   },
   featuredReviews: [
-    { reviewerName: "[NEEDS REVIEW]", starRating: 5, reviewText: "[NEEDS REVIEW] - specific customer reviews not provided in listing", isVerifiedPurchase: true }
+    // TODO: Add real customer reviews from Amazon listing
   ],
   negativeReviewFaq: [
     { question: "What if I don't notice results right away?", answer: "Liver support supplements work gradually at the cellular level. Most users notice benefits after 4-8 weeks of consistent daily use. Focus on taking 2 capsules daily with food and be patient - your liver will thank you over time.", sourceTheme: "slow or delayed results" },

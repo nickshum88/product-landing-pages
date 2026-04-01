@@ -93,7 +93,7 @@ export const ceylonCinnamonAppleCiderVinegar5In1Supplement: Product = {
     ],
   },
   featuredReviews: [
-    { reviewerName: "[NEEDS REVIEW]", starRating: [NEEDS REVIEW], reviewText: "[NEEDS REVIEW]", isVerifiedPurchase: [NEEDS REVIEW] }
+    // TODO: Add real customer reviews from Amazon listing
   ],
   negativeReviewFaq: [
     { question: "I've been taking this for a week but don't feel much different - is it working?", answer: "Botanical supplements like this typically work gradually over weeks to months. Many people start noticing benefits around the 4-6 week mark with consistent daily use. Make sure you're taking it with meals as directed and maintaining healthy lifestyle habits for best results.", sourceTheme: "Slow or unnoticeable results" },

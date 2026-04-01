@@ -85,7 +85,7 @@ export const methylatedBComplexLiquidDrops2Pack: Product = {
     ],
   },
   featuredReviews: [
-    { reviewerName: "[NEEDS REVIEW]", starRating: 5, reviewText: "[NEEDS REVIEW]", isVerifiedPurchase: true }
+    // TODO: Add real customer reviews from Amazon listing
   ],
   negativeReviewFaq: [
     { question: "What if I don't notice any energy boost right away?", answer: "B vitamin benefits often build gradually over 2-4 weeks as your body replenishes its stores. Factors like diet, stress, and individual metabolism can affect timing. Continue consistent daily use and ensure you're following the sublingual instructions for best absorption.", sourceTheme: "slow or no noticeable results" },

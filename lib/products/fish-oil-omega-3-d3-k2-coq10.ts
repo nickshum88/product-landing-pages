@@ -85,7 +85,7 @@ export const fishOilOmega3D3K2Coq10: Product = {
     ],
   },
   featuredReviews: [
-    { reviewerName: "[NEEDS REVIEW]", starRating: 5, reviewText: "[NEEDS REVIEW - no specific reviews provided in source content]", isVerifiedPurchase: true }
+    // TODO: Add real customer reviews from Amazon listing
   ],
   negativeReviewFaq: [
     { question: "What if I don't notice results right away?", answer: "Omega-3 and fat-soluble vitamin benefits develop gradually over 2-3 months as tissue levels build up. Take consistently with meals and give your body time to reach optimal nutrient levels.", sourceTheme: "slow or no noticeable results" },
