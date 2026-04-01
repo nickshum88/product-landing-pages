@@ -13,6 +13,7 @@ import { methylatedBComplexLiquidDrops } from "./methylated-b-complex-liquid-dro
 import { extraStrengthTurmericBioperineGarlicGingerCapsules } from "./extra-strength-turmeric-bioperine-garlic-ginger-capsules";
 import { melatoninFreeSleepSupportCapsules } from "./melatonin-free-sleep-support-capsules";
 import { melatoninSleepExtraStrengthCapsules10mg } from "./melatonin-sleep-extra-strength-capsules-10mg";
+import { milkThistleLiverSupportSupplementNacArtichokeDandelion } from "./milk-thistle-liver-support-supplement-nac-artichoke-dandelion";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -29,6 +30,7 @@ const products: Record<string, Product> = {
   "extra-strength-turmeric-bioperine-garlic-ginger-capsules": extraStrengthTurmericBioperineGarlicGingerCapsules,
   "melatonin-free-sleep-support-capsules": melatoninFreeSleepSupportCapsules,
   "melatonin-sleep-extra-strength-capsules-10mg": melatoninSleepExtraStrengthCapsules10mg,
+  "milk-thistle-liver-support-supplement-nac-artichoke-dandelion": milkThistleLiverSupportSupplementNacArtichokeDandelion,
 };
 
 export function getProduct(slug: string): Product | undefined {
