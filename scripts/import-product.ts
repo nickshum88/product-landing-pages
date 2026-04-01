@@ -223,6 +223,56 @@ async function extractBrandInfo(brandUrl: string): Promise<BrandInfo> {
   return { name, url: brandUrl, colors: colors.slice(0, 10), description, logoUrl };
 }
 
+// --- Extract reviews from HTML (before stripping review elements) ---
+
+interface ExtractedReview {
+  reviewerName: string;
+  starRating: number;
+  reviewText: string;
+  isVerifiedPurchase: boolean;
+  reviewDate?: string;
+}
+
+function extractReviews(html: string): ExtractedReview[] {
+  const $ = cheerio.load(html);
+  const reviews: ExtractedReview[] = [];
+
+  $("#cm-cr-dp-review-list .review, #reviewsMedley .review, .cr-widget-FocalReviews .review").each((_, el) => {
+    const reviewEl = $(el);
+
+    let starRating = 0;
+    const starText = reviewEl.find(".a-icon-alt").first().text().trim();
+    const starMatch = starText.match(/^(\d(?:\.\d)?)/);
+    if (starMatch) {
+      starRating = Math.round(parseFloat(starMatch[1]));
+    } else {
+      const starClass = reviewEl.find("[class*='a-star-']").first().attr("class") || "";
+      const classMatch = starClass.match(/a-star-(\d)/);
+      if (classMatch) starRating = parseInt(classMatch[1]);
+    }
+
+    const reviewerName = reviewEl.find(".a-profile-name").first().text().trim() || "Amazon Customer";
+    const reviewText = reviewEl.find(".review-text-content, .review-text").first().text().trim();
+    const isVerified = reviewEl.text().includes("Verified Purchase");
+
+    const dateText = reviewEl.find(".review-date").first().text().trim();
+    const dateMatch = dateText.match(/on\s+(.+)/);
+    const reviewDate = dateMatch ? dateMatch[1] : undefined;
+
+    if (reviewText && reviewText.length > 10 && starRating > 0) {
+      reviews.push({
+        reviewerName,
+        starRating,
+        reviewText: reviewText.slice(0, 500),
+        isVerifiedPurchase: isVerified,
+        ...(reviewDate ? { reviewDate } : {}),
+      });
+    }
+  });
+
+  return reviews.slice(0, 5);
+}
+
 // --- Extract relevant text from HTML ---
 
 function extractPageContent(html: string): string {
@@ -789,6 +839,10 @@ async function main() {
     }
   }
 
+  // Extract reviews BEFORE stripping review elements from HTML
+  const extractedReviews = extractReviews(html);
+  console.log(`Extracted ${extractedReviews.length} customer reviews from listing.`);
+
   const pageContent = extractPageContent(html);
   if (pageContent.length < 100) {
     console.error(
@@ -825,7 +879,20 @@ async function main() {
 
   console.log(`Sending ${imageData.length} total images for Claude vision analysis.`);
 
-  const config = await generateProductConfig(asin, pageContent, imageData, brandInfo);
+  let config = await generateProductConfig(asin, pageContent, imageData, brandInfo);
+
+  // Inject extracted reviews into config (replace placeholder/empty featuredReviews)
+  if (extractedReviews.length > 0) {
+    const reviewsTs = extractedReviews.map(r => {
+      const escaped = r.reviewText.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n");
+      const datePart = r.reviewDate ? `, reviewDate: "${r.reviewDate}"` : "";
+      return `    { reviewerName: "${r.reviewerName.replace(/"/g, '\\"')}", starRating: ${r.starRating}, reviewText: "${escaped}", isVerifiedPurchase: ${r.isVerifiedPurchase}${datePart} }`;
+    }).join(",\n");
+    config = config.replace(
+      /featuredReviews:\s*\[[\s\S]*?\]/,
+      `featuredReviews: [\n${reviewsTs}\n  ]`
+    );
+  }
 
   // Derive slug from the config
   const slugMatch = config.match(/slug:\s*"([^"]+)"/);
