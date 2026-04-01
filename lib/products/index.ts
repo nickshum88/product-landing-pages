@@ -6,7 +6,6 @@ import { organicVitaminD3K2DropsMctOilOmega3 } from "./organic-vitamin-d3-k2-dro
 import { medchoiceMelatoninSleepCapsules } from "./medchoice-melatonin-sleep-capsules";
 import { liquidCollagenBiotinHairSkinNails } from "./liquid-collagen-biotin-hair-skin-nails";
 import { fishOilOmega3D3K2Coq10 } from "./fish-oil-omega-3-d3-k2-coq10";
-import { methylatedBComplexLiquidDrops2Pack } from "./methylated-b-complex-liquid-drops-2-pack";
 import { alphaGpcGinkgoBilobaNootropicBrainSupplement } from "./alpha-gpc-ginkgo-biloba-nootropic-brain-supplement";
 import { ceylonCinnamonAppleCiderVinegar5In1Supplement } from "./ceylon-cinnamon-apple-cider-vinegar-5-in-1-supplement";
 import { methylatedBComplexLiquidDrops } from "./methylated-b-complex-liquid-drops";
@@ -24,7 +23,6 @@ const products: Record<string, Product> = {
   "medchoice-melatonin-sleep-capsules": medchoiceMelatoninSleepCapsules,
   "liquid-collagen-biotin-hair-skin-nails": liquidCollagenBiotinHairSkinNails,
   "fish-oil-omega-3-d3-k2-coq10": fishOilOmega3D3K2Coq10,
-  "methylated-b-complex-liquid-drops-2-pack": methylatedBComplexLiquidDrops2Pack,
   "alpha-gpc-ginkgo-biloba-nootropic-brain-supplement": alphaGpcGinkgoBilobaNootropicBrainSupplement,
   "ceylon-cinnamon-apple-cider-vinegar-5-in-1-supplement": ceylonCinnamonAppleCiderVinegar5In1Supplement,
   "methylated-b-complex-liquid-drops": methylatedBComplexLiquidDrops,
