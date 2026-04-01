@@ -23,9 +23,9 @@ export const myoInositolDChiroInositolWomensComplex: Product = {
     "Caffeine-Free",
   ],
   usageSteps: [
-    { icon: "🥄", title: "Take 2 capsules twice daily", detail: "Take with a meal and 8 oz of water for optimal absorption" },
+    { icon: "🥄", title: "Take 2 capsules twice daily", detail: "Take with a meal and 8 fl. oz. of water for optimal absorption" },
     { icon: "⏰", title: "Start gradually if new to inositol", detail: "If you have personal sensitivities, take 2 capsules once a day for 30 days before increasing" },
-    { icon: "📅", title: "Use daily for best results", detail: "Each serving provides 2600mg of our comprehensive blend" },
+    { icon: "📅", title: "Use daily for best results", detail: "Each serving provides 2600 mg of our comprehensive blend" },
   ],
   proTips: [
     "Take with meals to enhance absorption and minimize any digestive sensitivity",
@@ -50,8 +50,8 @@ export const myoInositolDChiroInositolWomensComplex: Product = {
     { name: "Zinc", amount: "30 mg", description: "Essential mineral for immune function and cellular processes" },
   ],
   faq: [
-    { question: "How do I take this inositol supplement?", answer: "Take 2 capsules twice daily with meals and 8 oz of water. If you're new to inositol or have sensitivities, start with 2 capsules once daily for 30 days before increasing to the full dose." },
-    { question: "What makes this formula different from basic inositol supplements?", answer: "Our formula uses the optimal 40:1 ratio of myo-inositol to d-chiro-inositol, plus bioavailable folate, essential vitamins, gentle minerals, and adaptogenic botanicals for comprehensive support." },
+    { question: "How do I take this inositol supplement?", answer: "Take 2 capsules twice daily with meals and 8 fl. oz. of water. If you're new to inositol or have sensitivities, start with 2 capsules once daily for 30 days before increasing to the full dose." },
+    { question: "What makes this formula different from basic inositol supplements?", answer: "Our formula uses the optimal 14:1 ratio of myo-inositol to d-chiro-inositol, plus bioavailable folate, essential vitamins, gentle minerals, and adaptogenic botanicals for comprehensive support." },
     { question: "Is this supplement suitable for vegans and those with dietary restrictions?", answer: "Yes, this supplement is vegan, non-GMO, gluten-free, caffeine-free, and made without artificial colors or preservatives." },
     { question: "Can I take this supplement daily long-term?", answer: "Yes, this formula is designed for daily use as part of your wellness routine. Each bottle contains 120 capsules for a 30-day supply at the full recommended dose." },
     { question: "Why does this formula include folate and other vitamins?", answer: "We included bioactive folate (5-MTHF) and essential B vitamins because they work synergistically with inositol compounds to support cellular health and energy metabolism." },
