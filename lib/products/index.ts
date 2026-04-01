@@ -12,6 +12,7 @@ import { ceylonCinnamonAppleCiderVinegar5In1Supplement } from "./ceylon-cinnamon
 import { methylatedBComplexLiquidDrops } from "./methylated-b-complex-liquid-drops";
 import { extraStrengthTurmericBioperineGarlicGingerCapsules } from "./extra-strength-turmeric-bioperine-garlic-ginger-capsules";
 import { melatoninFreeSleepSupportCapsules } from "./melatonin-free-sleep-support-capsules";
+import { melatoninSleepExtraStrengthCapsules10mg } from "./melatonin-sleep-extra-strength-capsules-10mg";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -27,6 +28,7 @@ const products: Record<string, Product> = {
   "methylated-b-complex-liquid-drops": methylatedBComplexLiquidDrops,
   "extra-strength-turmeric-bioperine-garlic-ginger-capsules": extraStrengthTurmericBioperineGarlicGingerCapsules,
   "melatonin-free-sleep-support-capsules": melatoninFreeSleepSupportCapsules,
+  "melatonin-sleep-extra-strength-capsules-10mg": melatoninSleepExtraStrengthCapsules10mg,
 };
 
 export function getProduct(slug: string): Product | undefined {
