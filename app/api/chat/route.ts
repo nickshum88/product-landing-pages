@@ -5,7 +5,7 @@ import { getBrandBySlug } from "@/lib/brands";
 import { RETURN_POLICIES, PLATFORM_LABELS } from "@/lib/constants";
 import { Platform } from "@/lib/types";
 
-const anthropic = new Anthropic();
+const anthropic = new Anthropic({ maxRetries: 5 });
 
 export async function POST(request: NextRequest) {
   try {

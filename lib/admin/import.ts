@@ -512,7 +512,7 @@ export async function generateProductWithClaude(
   imageData: Array<{ base64: string; mediaType: string }>,
   brandInfo: BrandInfo
 ): Promise<Partial<Product>> {
-  const anthropic = new Anthropic();
+  const anthropic = new Anthropic({ maxRetries: 5 });
 
   const content: Array<Anthropic.ImageBlockParam | Anthropic.TextBlockParam> =
     [];
