@@ -10,6 +10,7 @@ import { methylatedBComplexLiquidDrops2Pack } from "./methylated-b-complex-liqui
 import { alphaGpcGinkgoBilobaNootropicBrainSupplement } from "./alpha-gpc-ginkgo-biloba-nootropic-brain-supplement";
 import { ceylonCinnamonAppleCiderVinegar5In1Supplement } from "./ceylon-cinnamon-apple-cider-vinegar-5-in-1-supplement";
 import { methylatedBComplexLiquidDrops } from "./methylated-b-complex-liquid-drops";
+import { extraStrengthTurmericBioperineGarlicGingerCapsules } from "./extra-strength-turmeric-bioperine-garlic-ginger-capsules";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -23,6 +24,7 @@ const products: Record<string, Product> = {
   "alpha-gpc-ginkgo-biloba-nootropic-brain-supplement": alphaGpcGinkgoBilobaNootropicBrainSupplement,
   "ceylon-cinnamon-apple-cider-vinegar-5-in-1-supplement": ceylonCinnamonAppleCiderVinegar5In1Supplement,
   "methylated-b-complex-liquid-drops": methylatedBComplexLiquidDrops,
+  "extra-strength-turmeric-bioperine-garlic-ginger-capsules": extraStrengthTurmericBioperineGarlicGingerCapsules,
 };
 
 export function getProduct(slug: string): Product | undefined {
