@@ -14,6 +14,7 @@ import { melatoninFreeSleepSupportCapsules } from "./melatonin-free-sleep-suppor
 import { melatoninSleepExtraStrengthCapsules10mg } from "./melatonin-sleep-extra-strength-capsules-10mg";
 import { milkThistleLiverSupportSupplementNacArtichokeDandelion } from "./milk-thistle-liver-support-supplement-nac-artichoke-dandelion";
 import { myoDChiroInositol401FolateD3 } from "./myo-d-chiro-inositol-40-1-folate-d3";
+import { myoInositolDChiroInositolWomensComplex } from "./myo-inositol-d-chiro-inositol-womens-complex";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -31,6 +32,7 @@ const products: Record<string, Product> = {
   "melatonin-sleep-extra-strength-capsules-10mg": melatoninSleepExtraStrengthCapsules10mg,
   "milk-thistle-liver-support-supplement-nac-artichoke-dandelion": milkThistleLiverSupportSupplementNacArtichokeDandelion,
   "myo-d-chiro-inositol-40-1-folate-d3": myoDChiroInositol401FolateD3,
+  "myo-inositol-d-chiro-inositol-womens-complex": myoInositolDChiroInositolWomensComplex,
 };
 
 export function getProduct(slug: string): Product | undefined {
