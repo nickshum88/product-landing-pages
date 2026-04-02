@@ -17,7 +17,6 @@ import { myoDChiroInositol401FolateD3 } from "./myo-d-chiro-inositol-40-1-folate
 import { myoInositolDChiroInositolWomensComplex } from "./myo-inositol-d-chiro-inositol-womens-complex";
 import { methylatedMultivitaminWithOmega3 } from "./methylated-multivitamin-with-omega-3";
 import { quercetinBromelainImmuneSupport } from "./quercetin-bromelain-immune-support";
-import { primemdCalciumD3K2B12Supplement } from "./primemd-calcium-d3-k2-b12-supplement";
 import { primemdCalciumExtraStrengthD3K2B12Supplement } from "./primemd-calcium-extra-strength-d3-k2-b12-supplement";
 import { methylatedBComplexVitaminC } from "./methylated-b-complex-vitamin-c";
 import { liverSupportElectrolytesCapsules } from "./liver-support-electrolytes-capsules";
@@ -41,7 +40,6 @@ const products: Record<string, Product> = {
   "myo-inositol-d-chiro-inositol-womens-complex": myoInositolDChiroInositolWomensComplex,
   "methylated-multivitamin-with-omega-3": methylatedMultivitaminWithOmega3,
   "quercetin-bromelain-immune-support": quercetinBromelainImmuneSupport,
-  "primemd-calcium-d3-k2-b12-supplement": primemdCalciumD3K2B12Supplement,
   "primemd-calcium-extra-strength-d3-k2-b12-supplement": primemdCalciumExtraStrengthD3K2B12Supplement,
   "methylated-b-complex-vitamin-c": methylatedBComplexVitaminC,
   "liver-support-electrolytes-capsules": liverSupportElectrolytesCapsules,
