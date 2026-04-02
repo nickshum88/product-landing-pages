@@ -20,6 +20,7 @@ import { quercetinBromelainImmuneSupport } from "./quercetin-bromelain-immune-su
 import { primemdCalciumExtraStrengthD3K2B12Supplement } from "./primemd-calcium-extra-strength-d3-k2-b12-supplement";
 import { methylatedBComplexVitaminC } from "./methylated-b-complex-vitamin-c";
 import { liverSupportElectrolytesCapsules } from "./liver-support-electrolytes-capsules";
+import { 26In1NitricOxideSupplementHeartCirculationSupportWithCoq10TurmericOrganicBeetRootHawthornBerryGarlic2103mgPerServing120ct } from "./26-in-1-nitric-oxide-supplement-heart-circulation-support-with-coq10-turmeric-organic-beet-root-hawthorn-berry-garlic-2103mg-per-serving-120ct";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -43,6 +44,7 @@ const products: Record<string, Product> = {
   "primemd-calcium-extra-strength-d3-k2-b12-supplement": primemdCalciumExtraStrengthD3K2B12Supplement,
   "methylated-b-complex-vitamin-c": methylatedBComplexVitaminC,
   "liver-support-electrolytes-capsules": liverSupportElectrolytesCapsules,
+  "26-in-1-nitric-oxide-supplement-heart-circulation-support-with-coq10-turmeric-organic-beet-root-hawthorn-berry-garlic-2103mg-per-serving-120ct": 26In1NitricOxideSupplementHeartCirculationSupportWithCoq10TurmericOrganicBeetRootHawthornBerryGarlic2103mgPerServing120ct,
 };
 
 export function getProduct(slug: string): Product | undefined {
