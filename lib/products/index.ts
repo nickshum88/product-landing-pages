@@ -20,6 +20,7 @@ import { quercetinBromelainImmuneSupport } from "./quercetin-bromelain-immune-su
 import { primemdCalciumD3K2B12Supplement } from "./primemd-calcium-d3-k2-b12-supplement";
 import { primemdCalciumExtraStrengthD3K2B12Supplement } from "./primemd-calcium-extra-strength-d3-k2-b12-supplement";
 import { methylatedBComplexVitaminC } from "./methylated-b-complex-vitamin-c";
+import { liverSupportElectrolytesCapsules } from "./liver-support-electrolytes-capsules";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -43,6 +44,7 @@ const products: Record<string, Product> = {
   "primemd-calcium-d3-k2-b12-supplement": primemdCalciumD3K2B12Supplement,
   "primemd-calcium-extra-strength-d3-k2-b12-supplement": primemdCalciumExtraStrengthD3K2B12Supplement,
   "methylated-b-complex-vitamin-c": methylatedBComplexVitaminC,
+  "liver-support-electrolytes-capsules": liverSupportElectrolytesCapsules,
 };
 
 export function getProduct(slug: string): Product | undefined {
