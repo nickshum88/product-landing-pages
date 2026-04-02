@@ -18,6 +18,7 @@ import { myoInositolDChiroInositolWomensComplex } from "./myo-inositol-d-chiro-i
 import { methylatedMultivitaminWithOmega3 } from "./methylated-multivitamin-with-omega-3";
 import { quercetinBromelainImmuneSupport } from "./quercetin-bromelain-immune-support";
 import { primemdCalciumD3K2B12Supplement } from "./primemd-calcium-d3-k2-b12-supplement";
+import { primemdCalciumExtraStrengthD3K2B12Supplement } from "./primemd-calcium-extra-strength-d3-k2-b12-supplement";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -39,6 +40,7 @@ const products: Record<string, Product> = {
   "methylated-multivitamin-with-omega-3": methylatedMultivitaminWithOmega3,
   "quercetin-bromelain-immune-support": quercetinBromelainImmuneSupport,
   "primemd-calcium-d3-k2-b12-supplement": primemdCalciumD3K2B12Supplement,
+  "primemd-calcium-extra-strength-d3-k2-b12-supplement": primemdCalciumExtraStrengthD3K2B12Supplement,
 };
 
 export function getProduct(slug: string): Product | undefined {
