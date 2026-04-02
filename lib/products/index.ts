@@ -16,6 +16,7 @@ import { milkThistleLiverSupportSupplementNacArtichokeDandelion } from "./milk-t
 import { myoDChiroInositol401FolateD3 } from "./myo-d-chiro-inositol-40-1-folate-d3";
 import { myoInositolDChiroInositolWomensComplex } from "./myo-inositol-d-chiro-inositol-womens-complex";
 import { methylatedMultivitaminWithOmega3 } from "./methylated-multivitamin-with-omega-3";
+import { quercetinBromelainImmuneSupport } from "./quercetin-bromelain-immune-support";
 
 const products: Record<string, Product> = {
   "vitamin-b12-b6-liquid-drops": vitaminB12B6LiquidDrops,
@@ -35,6 +36,7 @@ const products: Record<string, Product> = {
   "myo-d-chiro-inositol-40-1-folate-d3": myoDChiroInositol401FolateD3,
   "myo-inositol-d-chiro-inositol-womens-complex": myoInositolDChiroInositolWomensComplex,
   "methylated-multivitamin-with-omega-3": methylatedMultivitaminWithOmega3,
+  "quercetin-bromelain-immune-support": quercetinBromelainImmuneSupport,
 };
 
 export function getProduct(slug: string): Product | undefined {
